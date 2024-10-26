@@ -1,0 +1,38 @@
+body {
+    height: 100vh;
+    width: 100vw;
+    background-color: #FFFFFF;
+    position: relative;
+}
+
+header {
+    max-width: 1280px;
+    height: 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000000;
+    margin: 0 auto;
+}
+
+.header__left {
+    width: 30%;
+}
+
+.header__logo{
+    margin-left: 7%;
+}
+
+main {
+    max-width: 1280px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+}
+
+@media screen and (max-width: 768px) {
+    .header__left {
+        display: flex;
+        justify-content: space-between;
+        margin-left: 1%;
+    }
+}
