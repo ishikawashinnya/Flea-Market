@@ -1,0 +1,203 @@
+.header__right {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__search {
+    width: 45%;
+}
+
+.text__search {
+    width: 100%;
+}
+
+.text__search-input {
+    width: 100%;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 5%;
+}
+
+.header__nav {
+    width: 45%;
+    padding-right: 5%;
+}
+
+.header__nav-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__nav-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    font-size: 15px;
+    color: #fff;
+}
+
+.header__nav-link {
+    font-size: 15px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.header__nav-item--sell {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.header__nav-link--sell {
+    border-radius: 3px;
+    background-color: #fff;
+    font-size: 15px;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 7px 15px;
+}
+
+.top__content {
+    width: 100%;
+    height: 100vh;
+}
+
+.content__header {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    border-bottom: solid 1px;
+    margin-top: 1%;
+}
+
+.recommend__link {
+    width: 9%;
+    display: flex;
+    justify-content: center;
+    margin-left: 7%;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.tab-link {
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+}
+
+.tab-link:hover {
+    color: #007bff;
+}
+
+.like__link {
+    width: 9%;
+    display: flex;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.content__main {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+.card {
+    width: 15%;
+    height: 220px;
+    border: none;
+    background-color: gray;
+    margin-top: 5%;
+    margin-right: 2%;
+    margin-left: 3%;
+}
+
+.item__img {
+    width: 100%;
+    height: 80%;
+    background-color: #D9D9D9;
+    position: relative;
+}
+
+.detail__link {
+    width: 100%;
+    height: 100%;
+}
+
+.detail__link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card__message {
+    width: 35%;
+    height: 30px;
+    background-color: red;
+    color: #fff;
+    position: absolute;
+    top: 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card__item {
+    position: absolute;
+    bottom: 7%;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item__price {
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 0 45px 45px 0;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    padding-right: 15px;
+}
+
+.item__like {
+    width: 35px;
+    height: 35px;
+    margin-right: 5%;
+    border-radius: 50%;
+    background-color: #ffffff;
+    display: none;
+}
+
+.like__form-btn {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    border-radius: 50%;
+    margin-top: 20%;
+}
+
+.like__form-btn img {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.item__img:hover .item__like {
+    display: block;
+}
