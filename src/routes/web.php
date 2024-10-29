@@ -24,3 +24,9 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('s
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 Route::get('/', [MarketController::class, 'index'])->name('home');
+
+//AuthenticatedUserRoutes
+Route::middleware(['auth'])->group(function () {
+    Route::post('/likes', [MarketController::class, 'likeCreate'])->name('likes.create');
+    Route::delete('/likes/{id}', [MarketController::class, 'likeDestroy'])->name('likes.destroy');
+});
