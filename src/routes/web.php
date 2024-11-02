@@ -27,6 +27,8 @@ Route::get('/', [MarketController::class, 'index'])->name('home');
 
 //AuthenticatedUserRoutes
 Route::middleware(['auth'])->group(function () {
+    Route::get('/mypage', [MarketController::class, 'mypage'])->name('mypage');
+
     Route::post('/likes', [MarketController::class, 'likeCreate'])->name('likes.create');
     Route::delete('/likes/{id}', [MarketController::class, 'likeDestroy'])->name('likes.destroy');
 });
