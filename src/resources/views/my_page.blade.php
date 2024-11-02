@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/top_page.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/my_page.css') }}" />
 @endsection
 
 @section('header')
@@ -23,7 +23,7 @@
                     </form>
                 </li>
                 <li class="header__nav-item">
-                    <a href="{{ route('mypage') }}" class="header__nav-link">マイページ</a>
+                    <a href="{{ route('home') }}" class="header__nav-link">トップページ</a>
                 </li>
             @else
                 <li class="header__nav-item">
@@ -42,13 +42,28 @@
 @endsection
 
 @section('content')
-<div class="top__content">
+<div class="mypage__content">
     <div class="content__header">
-        <div class="header__tab">
-            <a href="{{ route('home') }}" class="tab__link {{ request('tab') !== 'mylist' ? 'active' : '' }}">おすすめ</a>
+        <div class="header__profile">
+            <div class="user__profile">
+                <div class="profile__img">
+                    <img class="face__icon" src="{{ $profileImgUrl }}" alt="画像">
+                </div>
+                <div class="profile__name">
+                    <p>{{ $user->name }}</p>
+                </div>
+            </div>
+            <div class="profile__edit">
+                <a href="" class="profile__edit-link">プロフィールを編集</a>
+            </div>
         </div>
         <div class="header__tab">
-            <a href="{{ route('home') }}?tab=mylist" class="tab__link {{ request('tab') === 'mylist' ? 'active' : '' }}">マイリスト</a>
+            <div class="tab__item">
+                <a href="{{ route('mypage') }}" class="tab__link {{ request('tab') === null ? 'active' : '' }}">出品した商品</a>
+            </div>
+            <div class="tab__item">
+                <a href="{{ route('mypage', ['tab' => 'buys']) }}" class="tab__link {{ request('tab') === 'buys' ? 'active' : '' }}">購入した商品</a>
+            </div>
         </div>
     </div>
 
@@ -60,34 +75,12 @@
                         <img src="{{ $item->img_url }}" alt="{{ $item->name }}" >
                     </a>
                     @if (in_array($item->id, $soldItems))
-                        <div class="card__message">     
-                            <p class="sold__message">sold</p>   
+                        <div class="card__message">
+                            <p class="sold__message">sold</p>
                         </div>
                     @endif
                     <div class="card__item">
                         <p class="item__price">&yen;{{ $item->price }}</p>
-                        <div class="item__like">    
-                            @if (Auth::check())
-                                @if (in_array($item->id, $likes))
-                                    <form action="{{ route('likes.destroy', $item->id) }}" method="POST" class="item__like-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="hidden" name="item_id" value="{{ $item->id }}">
-                                        <button type="submit" class="like__form-btn">
-                                            <img src="{{ asset('icon/heart_color.svg') }}" alt="お気に入り解除" class="heart-icon">
-                                        </button>
-                                    </form>
-                                @else
-                                    <form action="{{ route('likes.create') }}" method="POST" class="item__like-form">
-                                        @csrf
-                                        <input type="hidden" name="item_id" value="{{ $item->id }}">
-                                        <button type="submit" class="like__form-btn">
-                                            <img src="{{ asset('icon/heart.svg') }}" alt="お気に入り登録" class="heart-icon">
-                                        </button>
-                                    </form>
-                                @endif
-                            @endif
-                        </div>
                     </div> 
                 </div>
                 <div class="item__name">
@@ -97,6 +90,6 @@
                 </div>
             </div>
         @endforeach
-    </div>  
+    </div> 
 </div>
 @endsection
