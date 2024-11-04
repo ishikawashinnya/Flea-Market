@@ -69,7 +69,7 @@
                         <div class="item__like">    
                             @if (Auth::check())
                                 @if (in_array($item->id, $likes))
-                                    <form action="{{ route('likes.destroy', $item->id) }}" method="POST" class="item__like-form">
+                                    <form action="{{ route('destroy.like', $item->id) }}" method="POST" class="item__like-form">
                                         @csrf
                                         @method('DELETE')
                                         <input type="hidden" name="item_id" value="{{ $item->id }}">
@@ -78,7 +78,7 @@
                                         </button>
                                     </form>
                                 @else
-                                    <form action="{{ route('likes.create') }}" method="POST" class="item__like-form">
+                                    <form action="{{ route('store.like') }}" method="POST" class="item__like-form">
                                         @csrf
                                         <input type="hidden" name="item_id" value="{{ $item->id }}">
                                         <button type="submit" class="like__form-btn">
