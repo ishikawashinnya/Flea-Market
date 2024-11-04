@@ -9,6 +9,7 @@ use App\Models\Sold_item;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\AddressRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -127,5 +128,25 @@ class MarketController extends Controller
         $profile->save();
 
         return redirect()->route('profile')->with('success', 'プロフィールが更新されました');
+    }
+
+    public function editAddress() {
+        $user = Auth::user();
+        $profile = $user->profile ?? new Profile();
+
+        return view ('edit_address', compact('user', 'profile'));
+    }
+
+    public function updateAddress(AddressRequest $request) {
+        $user = Auth::user();
+
+        $profile = $user->profile ?? new Profile();
+        $profile->user_id = $user->id;
+        $profile->postcode = $request->postcode;
+        $profile->address = $request->address;
+        $profile->building = $request->building;
+
+        $profile->save();
+        return redirect()->route('edit.address')->with('success', 'プロフィールが更新されました');
     }
 }
