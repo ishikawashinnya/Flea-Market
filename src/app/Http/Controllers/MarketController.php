@@ -6,8 +6,11 @@ use App\Models\User;
 use App\Models\Item;
 use App\Models\Like;
 use App\Models\Sold_item;
+use App\Models\Profile;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProfileRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MarketController extends Controller
 {
@@ -37,7 +40,7 @@ class MarketController extends Controller
         return view('top_page', compact('items', 'likes', 'soldItems'));
     }
 
-    public function likeCreate(Request $request) {
+    public function storeLike(Request $request) {
         $user = Auth::user();
 
         $existingLike = Like::where('item_id', $request->item_id)->where('user_id', $user->id)->first();
@@ -54,7 +57,7 @@ class MarketController extends Controller
         return back();
     }
 
-    public function likeDestroy(Request $request, $id) {
+    public function destroyLike(Request $request, $id) {
         $like = Like::where('item_id', $id)->where('user_id', Auth::id())->first();
 
         if ($like) {
@@ -72,7 +75,7 @@ class MarketController extends Controller
             if ($user) {
                 $buys = Sold_item::where('user_id', $user->id)->pluck('item_id')->toArray();
                 if ($keyword) {
-                    $items = Item::whereIn('id', $buys)->where('name', 'LIKE', '%' . $kyeword . '%')->get();
+                    $items = Item::whereIn('id', $buys)->where('name', 'LIKE', '%' . $keyword . '%')->get();
                 } else {
                     $items = Item::whereIn('id', $buys)->get();
                 }
@@ -81,7 +84,7 @@ class MarketController extends Controller
             }
         } else {
             if ($keyword) {
-                $items = Item::where('user_id', $user->id)->where('name', 'LIKE', '%' . $kyeword . '%')->get();
+                $items = Item::where('user_id', $user->id)->where('name', 'LIKE', '%' . $keyword . '%')->get();
             } else {
                 $items = Item::where('user_id', $user->id)->get();
             }
@@ -89,8 +92,40 @@ class MarketController extends Controller
 
         $soldItems = Sold_item::pluck('item_id')->toArray();
 
-        $profileImgUrl = $user->profile->img_url ?? asset('icon/face.svg');
+        $profile = $user->profile ?? new Profile();
+        $profileImgUrl = $profile->img_url ?? asset('icon/face.svg');
 
-        return view ('my_page', compact('user', 'items', 'soldItems', 'profileImgUrl'));
+        return view ('my_page', compact('user', 'items', 'soldItems', 'profile', 'profileImgUrl'));
+    }
+
+    public function profile() {
+        $user = Auth::user();
+        $profile = $user->profile ?? new Profile();
+
+        return view ('profile', compact('user', 'profile'));
+    }
+
+    public function updateProfile(ProfileRequest $request) {
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->save();
+
+        $profile = $user->profile ?? new Profile();
+        $profile->user_id = $user->id;
+        $profile->postcode = $request->postcode;
+        $profile->address = $request->address;
+        $profile->building = $request->building;
+
+        if ($request->hasFile('img_url')) {
+            if ($profile->img_url) {
+                Storage::disk('public')->delete($profile->img_url);
+            }
+            $img_url = $request->file('img_url')->store('profile_imgs', 'public');
+            $profile->img_url = $img_url;
+        } 
+
+        $profile->save();
+
+        return redirect()->route('profile')->with('success', 'プロフィールが更新されました');
     }
 }
