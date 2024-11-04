@@ -6,7 +6,7 @@
 
 @section('header')
 <div class="header__right">
-    <form action="/" method="GET" class="header__search">
+    <form action="/mypage" method="GET" class="header__search">
         @csrf
         <div class="text__search">
             <input type="text" name="word" class="text__search-input" placeholder="なにをお探しですか？" value="{{ request('word') }}">
@@ -15,24 +15,15 @@
 
     <nav class="header__nav">
         <ul class="header__nav-list">
-            @if (Auth::check())
-                <li class="header__nav-item">
-                    <form action="/logout" method="post" class="logout">
-                        @csrf
-                        <button class="header__nav-button">ログアウト</button>
-                    </form>
-                </li>
-                <li class="header__nav-item">
-                    <a href="{{ route('home') }}" class="header__nav-link">トップページ</a>
-                </li>
-            @else
-                <li class="header__nav-item">
-                    <a href="{{ route('login') }}" class="header__nav-link">ログイン</a>
-                </li>
-                <li class="header__nav-item">
-                    <a href="{{ route('register') }}" class="header__nav-link">会員登録</a>
-                </li>
-            @endif
+            <li class="header__nav-item">
+                <form action="/logout" method="post" class="logout">
+                    @csrf
+                    <button class="header__nav-button">ログアウト</button>
+                </form>
+            </li>
+            <li class="header__nav-item">
+                <a href="{{ route('home') }}" class="header__nav-link">トップページ</a>
+            </li>
             <li class="header__nav-item--sell">
                 <a href="#" class="header__nav-link--sell">出品</a>
             </li>
@@ -47,14 +38,14 @@
         <div class="header__profile">
             <div class="user__profile">
                 <div class="profile__img">
-                    <img class="face__icon" src="{{ $profileImgUrl }}" alt="画像">
+                    <img src="{{ $profile->img_url ? asset('storage/' . $profile->img_url) : asset('icon/face.svg') }}" alt="画像">
                 </div>
                 <div class="profile__name">
                     <p>{{ $user->name }}</p>
                 </div>
             </div>
             <div class="profile__edit">
-                <a href="" class="profile__edit-link">プロフィールを編集</a>
+                <a href="{{ route('profile') }}" class="profile__edit-link">プロフィールを編集</a>
             </div>
         </div>
         <div class="header__tab">
