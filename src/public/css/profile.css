@@ -1,0 +1,169 @@
+.header__right {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__search {
+    width: 45%;
+}
+
+.text__search {
+    width: 100%;
+}
+
+.text__search-input {
+    width: 100%;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 5%;
+}
+
+.header__nav {
+    width: 45%;
+    padding-right: 5%;
+}
+
+.header__nav-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__nav-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    font-size: 15px;
+    color: #fff;
+}
+
+.header__nav-link {
+    font-size: 15px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.header__nav-item--sell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header__nav-link--sell {
+    border-radius: 3px;
+    background-color: #fff;
+    font-size: 15px;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 7px 15px;
+}
+
+.profile__content {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.content__header {
+    margin-top: 3%;
+    text-align: center;
+}
+
+.content__main {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.img__field {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+    margin-bottom: 8%;
+}
+
+.img__preview {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    margin-right: 8%;
+}
+
+.img__preview img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-size: cover;
+}
+
+.img__select {
+    width: 70%;
+}
+
+.img__select-label {
+    padding: 3px 15px;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    font-size: 15px;
+    color: #ff0000;
+    cursor: pointer;
+}
+
+.form__input {
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 8%;
+}
+
+.form__input label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.form__input input {
+    height: 35px;
+    border: 1px solid rgb(115, 115, 115);
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.form__button {
+    width: 450px;
+    background-color: #FF5555;
+    border: 1px solid rgb(255, 85, 85);
+    border-radius: 3px;
+}
+
+.form__button-submit {
+    width: 100%;
+    height: 35px;
+    border: none;
+    background-color: #FF5555;
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.form__error {
+    color: red;
+}
+
+.alert__success {
+    color: #32CD32;
+}
