@@ -24,6 +24,7 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('s
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 Route::get('/', [MarketController::class, 'index'])->name('home');
+Route::get('detail/{item_id}', [MarketController::class, 'detail'])->name('detail');
 
 //AuthenticatedUserRoutes
 Route::middleware(['auth'])->group(function () {

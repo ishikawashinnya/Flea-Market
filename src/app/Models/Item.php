@@ -41,4 +41,8 @@ class Item extends Model
     public function condition() {
         return $this->BelongsTo(Condition::class);
     }
+
+    public function categories() {
+        return $this->belongsToMany(Category::class, 'category_items');
+    }
 }
