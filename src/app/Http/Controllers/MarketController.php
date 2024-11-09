@@ -7,6 +7,10 @@ use App\Models\Item;
 use App\Models\Like;
 use App\Models\Sold_item;
 use App\Models\Profile;
+use App\Models\Category_item;
+use App\Models\Category;
+use App\Models\Comment;
+use App\Models\Condition;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\AddressRequest;
@@ -38,7 +42,7 @@ class MarketController extends Controller
             }
         }
 
-        return view('top_page', compact('items', 'likes', 'soldItems'));
+        return view('toppage', compact('items', 'likes', 'soldItems'));
     }
 
     public function storeLike(Request $request) {
@@ -96,7 +100,7 @@ class MarketController extends Controller
         $profile = $user->profile ?? new Profile();
         $profileImgUrl = $profile->img_url ?? asset('icon/face.svg');
 
-        return view ('my_page', compact('user', 'items', 'soldItems', 'profile', 'profileImgUrl'));
+        return view ('mypage', compact('user', 'items', 'soldItems', 'profile', 'profileImgUrl'));
     }
 
     public function profile() {
@@ -148,5 +152,16 @@ class MarketController extends Controller
 
         $profile->save();
         return redirect()->route('edit.address')->with('success', 'プロフィールが更新されました');
+    }
+
+    public function detail($item_id) {
+        $item = Item::findOrFail($item_id);
+        $user = Auth::user();
+        $likes = Like::where('item_id', $item->id)->count();
+        $comments = Comment::where('item_id', $item->id)->get();
+        $category_items = $item->categories;
+        $userLikes = $user ? Like::where('user_id', $user->id)->pluck('item_id')->toArray() : [];
+
+        return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_items', 'userLikes'));
     }
 }

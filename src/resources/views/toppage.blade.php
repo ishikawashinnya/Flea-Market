@@ -56,7 +56,7 @@
         @foreach($items as $item)
             <div class="card">
                 <div class="item__img">
-                    <a href="#" class="detail__link">
+                    <a href="{{ route('detail', $item->id) }}" class="detail__link">
                         <img src="{{ $item->img_url }}" alt="{{ $item->name }}" >
                     </a>
                     @if (in_array($item->id, $soldItems))
@@ -65,33 +65,31 @@
                         </div>
                     @endif
                     <div class="card__item">
-                        <p class="item__price">&yen;{{ $item->price }}</p>
-                        <div class="item__like">    
-                            @if (Auth::check())
-                                @if (in_array($item->id, $likes))
-                                    <form action="{{ route('destroy.like', $item->id) }}" method="POST" class="item__like-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="hidden" name="item_id" value="{{ $item->id }}">
-                                        <button type="submit" class="like__form-btn">
-                                            <img src="{{ asset('icon/heart_color.svg') }}" alt="お気に入り解除" class="heart-icon">
-                                        </button>
-                                    </form>
-                                @else
-                                    <form action="{{ route('store.like') }}" method="POST" class="item__like-form">
-                                        @csrf
-                                        <input type="hidden" name="item_id" value="{{ $item->id }}">
-                                        <button type="submit" class="like__form-btn">
-                                            <img src="{{ asset('icon/heart.svg') }}" alt="お気に入り登録" class="heart-icon">
-                                        </button>
-                                    </form>
-                                @endif
+                        <p class="item__price">&yen;{{ $item->price }}</p>                  
+                        <div class="item__like">
+                            @if (in_array($item->id, $likes))
+                                <form action="{{ route('destroy.like', $item->id) }}" method="POST" class="item__like-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="hidden" name="item_id" value="{{ $item->id }}">
+                                    <button type="submit" class="like__form-btn">
+                                        <img src="{{ asset('icon/heart_color.svg') }}" alt="お気に入り解除">
+                                    </button>
+                                </form>
+                            @else
+                                <form action="{{ route('store.like') }}" method="POST" class="item__like-form">
+                                    @csrf
+                                    <input type="hidden" name="item_id" value="{{ $item->id }}">
+                                    <button type="submit" class="like__form-btn">
+                                        <img src="{{ asset('icon/heart.svg') }}" alt="お気に入り登録">
+                                    </button>
+                                </form>
                             @endif
-                        </div>
+                        </div>   
                     </div> 
                 </div>
                 <div class="item__name">
-                    <a href="#" class="detail__link">
+                    <a href="{{ route('detail', $item->id) }}" class="detail__link">
                         <p>{{ $item->name }}</p>
                     </a>
                 </div>
