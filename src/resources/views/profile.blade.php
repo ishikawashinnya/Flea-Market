@@ -4,34 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}" />
 @endsection
 
-@section('header')
-<div class="header__right">
-    <form action="" method="GET" class="header__search">
-        @csrf
-        <div class="text__search">
-            <input type="text" name="word" class="text__search-input" placeholder="なにをお探しですか？" value="{{ request('word') }}">
-        </div>    
-    </form>
-
-    <nav class="header__nav">
-        <ul class="header__nav-list">
-            <li class="header__nav-item">
-                <form action="/logout" method="post" class="logout">
-                    @csrf
-                    <button class="header__nav-button">ログアウト</button>
-                </form>
-            </li>
-            <li class="header__nav-item">
-                <a href="{{ route('mypage') }}" class="header__nav-link">マイページ</a>
-            </li>
-            <li class="header__nav-item--sell">
-                <a href="#" class="header__nav-link--sell">出品</a>
-            </li>
-        </ul>
-    </nav>
-</div>
-@endsection
-
 @section('content')
 <div class="profile__content">
     <div class="content__header">
@@ -60,10 +32,10 @@
                 </div>
             </div>
             <div class="form__error">
-                    @error('img_url')
-                        {{ $message }}
-                    @enderror
-                </div>
+                @error('img_url')
+                    {{ $message }}
+                @enderror
+            </div>
 
             <div class="form__input">
                 <label for="name">ユーザー名</label>

@@ -1,35 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/my_page.css') }}" />
-@endsection
-
-@section('header')
-<div class="header__right">
-    <form action="/mypage" method="GET" class="header__search">
-        @csrf
-        <div class="text__search">
-            <input type="text" name="word" class="text__search-input" placeholder="なにをお探しですか？" value="{{ request('word') }}">
-        </div>    
-    </form>
-
-    <nav class="header__nav">
-        <ul class="header__nav-list">
-            <li class="header__nav-item">
-                <form action="/logout" method="post" class="logout">
-                    @csrf
-                    <button class="header__nav-button">ログアウト</button>
-                </form>
-            </li>
-            <li class="header__nav-item">
-                <a href="{{ route('home') }}" class="header__nav-link">トップページ</a>
-            </li>
-            <li class="header__nav-item--sell">
-                <a href="#" class="header__nav-link--sell">出品</a>
-            </li>
-        </ul>
-    </nav>
-</div>
+<link rel="stylesheet" href="{{ asset('css/mypage.css') }}" />
 @endsection
 
 @section('content')
@@ -62,8 +34,12 @@
         @foreach($items as $item)
             <div class="card">
                 <div class="item__img">
-                    <a href="#" class="detail__link">
-                        <img src="{{ $item->img_url }}" alt="{{ $item->name }}" >
+                    <a href="{{ route('detail', $item->id) }}" class="detail__link">
+                        @if (filter_var($item->img_url, FILTER_VALIDATE_URL))
+                           <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
+                        @else
+                            <img src="{{ asset('storage/item_images/' . $item->img_url) }}" alt="{{ $item->name }}" >
+                        @endif
                     </a>
                     @if (in_array($item->id, $soldItems))
                         <div class="card__message">
@@ -75,7 +51,7 @@
                     </div> 
                 </div>
                 <div class="item__name">
-                    <a href="#" class="detail__link">
+                    <a href="{{ route('detail', $item->id) }}" class="detail__link">
                         <p>{{ $item->name }}</p>
                     </a>
                 </div>
