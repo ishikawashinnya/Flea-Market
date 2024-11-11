@@ -42,7 +42,7 @@ class MarketController extends Controller
             }
         }
 
-        return view('toppage', compact('items', 'likes', 'soldItems'));
+        return view('toppage', compact('items', 'likes', 'soldItems'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
 
     public function storeLike(Request $request) {
@@ -100,14 +100,14 @@ class MarketController extends Controller
         $profile = $user->profile ?? new Profile();
         $profileImgUrl = $profile->img_url ?? asset('icon/face.svg');
 
-        return view ('mypage', compact('user', 'items', 'soldItems', 'profile', 'profileImgUrl'));
+        return view ('mypage', compact('user', 'items', 'soldItems', 'profile', 'profileImgUrl'), ['showSearchForm' => true, 'showToppageButton' => true, 'showSellpageButton' => true]);
     }
 
     public function profile() {
         $user = Auth::user();
         $profile = $user->profile ?? new Profile();
 
-        return view ('profile', compact('user', 'profile'));
+        return view ('profile', compact('user', 'profile'), ['showMypageButton' => true, 'showToppageButton' => true]);
     }
 
     public function updateProfile(ProfileRequest $request) {
@@ -138,7 +138,7 @@ class MarketController extends Controller
         $user = Auth::user();
         $profile = $user->profile ?? new Profile();
 
-        return view ('edit_address', compact('user', 'profile'));
+        return view ('edit_address', compact('user', 'profile'), ['showMypageButton' => true, 'showToppageButton' => true]);
     }
 
     public function updateAddress(AddressRequest $request) {
@@ -162,6 +162,38 @@ class MarketController extends Controller
         $category_items = $item->categories;
         $userLikes = $user ? Like::where('user_id', $user->id)->pluck('item_id')->toArray() : [];
 
-        return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_items', 'userLikes'));
+        return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_items', 'userLikes'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
+    }
+
+    public function sell() {
+        $user = Auth::user();
+        $item = Item::all();
+        $categories = Category::all();
+        $conditions = Condition::all();
+        return view ('sellpage', compact('user', 'item', 'categories', 'conditions'), ['showMypageButton' => true, 'showToppageButton' => true]);
+    }
+
+    public function storeSell(Request $request) {
+        $item = new Item();
+        $item->user_id = Auth::id();
+        $item->name = $request->input('name');
+        $item->price = $request->input('price');
+        $item->description = $request->input('description');
+        $item->condition_id = $request->input('condition_id');
+
+        if ($request->hasFile('img_url')) {
+            $img_url = $request->file('img_url')->store('item_images', 'public');
+            $item->img_url = str_replace('item_images/', '', $img_url);
+        }
+
+        $item->save();
+
+        $category_item = new Category_item();
+        $category_item->item_id = $item->id;
+        $category_item->category_id = $request->input('category_id');
+
+        $category_item->save();
+
+        return redirect()->back()->with('success', '出品が完了しました');
     }
 }

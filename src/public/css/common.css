@@ -31,6 +31,75 @@ header {
     background-size: cover;
 }
 
+.header__right {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__search {
+    width: 45%;
+}
+
+.text__search {
+    width: 100%;
+}
+
+.text__search-input {
+    width: 100%;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 5%;
+}
+
+.header__nav {
+    width: 45%;
+    padding-right: 5%;
+}
+
+.header__nav-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__nav-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    font-size: 15px;
+    color: #fff;
+    font-size: clamp(10px, 1.3vw, 16px);
+}
+
+.header__nav-link {
+    font-size: clamp(10px, 1.3vw, 16px);
+    color: #fff;
+    text-decoration: none;
+}
+
+.header__nav-item--sell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header__nav-link--sell {
+    border-radius: 3px;
+    background-color: #fff;
+    font-size: clamp(10px, 1.3vw, 15px);
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 7px 15px;
+}
+
 main {
     max-width: 1280px;
     margin: 0 auto;

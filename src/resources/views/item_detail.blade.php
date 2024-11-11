@@ -4,39 +4,15 @@
 <link rel="stylesheet" href="{{ asset('css/item_detail.css') }}" />
 @endsection
 
-@section('header')
-<div class="header__right">
-    <form action="/mypage" method="GET" class="header__search">
-        @csrf
-        <div class="text__search">
-            <input type="text" name="word" class="text__search-input" placeholder="なにをお探しですか？" value="{{ request('word') }}">
-        </div>    
-    </form>
-
-    <nav class="header__nav">
-        <ul class="header__nav-list">
-            <li class="header__nav-item">
-                <form action="/logout" method="post" class="logout">
-                    @csrf
-                    <button class="header__nav-button">ログアウト</button>
-                </form>
-            </li>
-            <li class="header__nav-item">
-                <a href="{{ route('home') }}" class="header__nav-link">トップページ</a>
-            </li>
-            <li class="header__nav-item">
-                <a href="#" class="header__nav-link--sell">出品</a>
-            </li>
-        </ul>
-    </nav>
-</div>
-@endsection
-
 @section('content')
 <div class="detail__content">
     <div class="content__left">
         <div class="item__img">
-            <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
+            @if (filter_var($item->img_url, FILTER_VALIDATE_URL))
+                <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
+             @else
+                <img src="{{ asset('storage/item_images/' . $item->img_url) }}" alt="{{ $item->name }}">
+            @endif
         </div>
     </div>
 
@@ -85,7 +61,7 @@
         </form>
         <div class="item__description">
             <h3>商品説明</h3>
-            <p class="description__text">{!! nl2br(e($item->description)) !!}</p>
+            <p class="description__text">{{ $item->description }}</p>
         </div>
         <div class="item__information">
             <h3 class="information__ttl">商品の情報</h3>
