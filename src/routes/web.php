@@ -38,4 +38,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/address/edit', [MarketController::class, 'editAddress'])->name('edit.address');
     Route::post('address/update', [MarketController::class, 'updateAddress'])->name('update.address');
+
+    Route::get('/sell', [MarketController::class, 'sell'])->name('sell');
+    Route::post('/sell/store', [MarketController::class, 'storeSell'])->name('store.sell');
 });
