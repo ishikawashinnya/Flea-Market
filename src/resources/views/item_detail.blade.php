@@ -52,13 +52,9 @@
                 <span class="total__number">{{ $comments->count() }}</span>
             </div>
         </div>
-        <form action="" class="buy__form">
-            @csrf
-            <input type="hidden" name="item_id" value="{{ $item->id }}">
-            <div class="form__btn">
-                <button class="form__button-submit" type="submit">購入する</button>
-            </div>
-        </form>
+        <div class="buy__link">
+            <a href="{{ route('buy', $item->id) }}" class="buy__link-btn">購入する</a>
+        </div>
         <div class="item__description">
             <h3>商品説明</h3>
             <p class="description__text">{{ $item->description }}</p>
