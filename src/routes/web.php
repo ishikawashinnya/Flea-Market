@@ -41,4 +41,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/sell', [MarketController::class, 'sell'])->name('sell');
     Route::post('/sell/store', [MarketController::class, 'storeSell'])->name('store.sell');
+
+    Route::get('/buy/{item_id}', [MarketController::class, 'buy'])->name('buy');
 });

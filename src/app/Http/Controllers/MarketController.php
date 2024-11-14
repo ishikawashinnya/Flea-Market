@@ -134,11 +134,12 @@ class MarketController extends Controller
         return redirect()->route('profile')->with('success', 'プロフィールが更新されました');
     }
 
-    public function editAddress() {
+    public function editAddress(Request $request) {
         $user = Auth::user();
         $profile = $user->profile ?? new Profile();
+        $item_id = $request->query('item_id');
 
-        return view ('edit_address', compact('user', 'profile'), ['showMypageButton' => true, 'showToppageButton' => true]);
+        return view ('edit_address', compact('user', 'profile', 'item_id'), ['showMypageButton' => true, 'showToppageButton' => true]);
     }
 
     public function updateAddress(AddressRequest $request) {
@@ -151,7 +152,10 @@ class MarketController extends Controller
         $profile->building = $request->building;
 
         $profile->save();
-        return redirect()->route('edit.address')->with('success', 'プロフィールが更新されました');
+
+        $item_id = $request->input('item_id');
+
+        return redirect()->route('edit.address')->with('success', '配送先が更新されました');
     }
 
     public function detail($item_id) {
@@ -195,5 +199,13 @@ class MarketController extends Controller
         $category_item->save();
 
         return redirect()->back()->with('success', '出品が完了しました');
+    }
+
+    public function buy($item_id) {
+        $user = Auth::user();
+        $item = Item::findOrFail($item_id);
+        $profile = auth()->user()->profile;
+
+        return view ('buypage', compact('user', 'item', 'profile'), ['showSearchForm' => true, 'showMypageButton' => true, 'showSellpageButton' => true]);
     }
 }
