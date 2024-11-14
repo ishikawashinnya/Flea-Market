@@ -34,6 +34,7 @@
                 <form action="{{ route('update.address') }}" method="post" class="profile__form">
                     @csrf
                     <input type="hidden" name="user_id" value="{{ $user->id }}">
+                    <input type="hidden" name="item_id" value="{{ $item_id }}">
 
                     <div class="form__input">
                         <label for="postcode">郵便番号</label>
