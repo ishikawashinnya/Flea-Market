@@ -25,6 +25,7 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name
 
 Route::get('/', [MarketController::class, 'index'])->name('home');
 Route::get('detail/{item_id}', [MarketController::class, 'detail'])->name('detail');
+Route::get('selleritem/{user_id}', [MarketController::class, 'sellerItem'])->name('selleritem');
 
 //AuthenticatedUserRoutes
 Route::middleware(['auth'])->group(function () {
