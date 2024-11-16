@@ -43,4 +43,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/sell/store', [MarketController::class, 'storeSell'])->name('store.sell');
 
     Route::get('/buy/{item_id}', [MarketController::class, 'buy'])->name('buy');
+
+    Route::get('/comment/{item_id}', [MarketController::class, 'comment'])->name('comment');
+    Route::post('/comment/store/{item_id}', [MarketController::class, 'storeComment'])->name('store.comment');
+    Route::delete('/comment/{item_id}',[MarketController::class, 'destroyComment'])->name('destroy.comment');
 });
