@@ -48,7 +48,9 @@
                     </form>
                 @endif
             <div class="icon__img">
-                <img src="{{ asset('icon/balloon.svg') }}" alt="吹き出し">
+                <a href="{{ route('comment', $item->id) }}" class="commetn__link">
+                    <img src="{{ asset('icon/balloon.svg') }}" alt="吹き出し">
+                </a>
                 <span class="total__number">{{ $comments->count() }}</span>
             </div>
         </div>

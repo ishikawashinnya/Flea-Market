@@ -208,4 +208,38 @@ class MarketController extends Controller
 
         return view ('buypage', compact('user', 'item', 'profile'), ['showSearchForm' => true, 'showMypageButton' => true, 'showSellpageButton' => true]);
     }
+
+    public function comment($item_id) {
+        $item = Item::findOrFail($item_id);
+        $user = Auth::user();
+        $likes = Like::where('item_id', $item->id)->count();
+        $comments = Comment::where('item_id', $item->id)->get();
+        $userLikes = $user ? Like::where('user_id', $user->id)->pluck('item_id')->toArray() : [];
+        $profile = auth()->user()->profile;
+
+        return view('comment', compact('item', 'user', 'likes', 'comments',  'userLikes', 'profile'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
+    }
+
+    public function storeComment(Request $request, $item_id) {
+        $comment = new Comment();
+        $comment->user_id = Auth::id();
+        $comment->item_id = $item_id;
+        $comment->comment = $request->input('comment');
+
+        $comment->save();
+
+        return redirect()->back();
+    }
+
+    public function destroyComment($item_id) {
+        $user = Auth::user();
+
+        $comment = Comment::where('user_id', $user->id)
+                          ->where('item_id', $item_id)
+                          ->firstOrFail();
+
+        $comment->delete();
+
+        return redirect()->back();
+    }
 }
