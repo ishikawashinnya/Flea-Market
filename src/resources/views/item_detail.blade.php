@@ -24,7 +24,7 @@
             <p>ブランド名</p>
         </div>
         <div class="item__price">
-            <p>&yen;{{ $item->price }}(値段)</p>
+            <p>&yen;{{ number_format($item->price) }}(値段)</p>
         </div>
         <div class="icon">
                 @if (in_array($item->id, $userLikes))
@@ -57,12 +57,16 @@
         <div class="buy__link">
             <a href="{{ route('buy', $item->id) }}" class="buy__link-btn">購入する</a>
         </div>
-        <div class="item__description">
-            <h3>商品説明</h3>
+        <div class="item__information">
+            <div class="information__ttl">
+                <h3>商品説明</h3>
+            </div>
             <p class="description__text">{{ $item->description }}</p>
         </div>
         <div class="item__information">
-            <h3 class="information__ttl">商品の情報</h3>
+            <div class="information__ttl">
+                <h3>商品の情報</h3>
+            </div>
             <div class="information__groupe">
                 <div class="groupe__ttl">
                     <p>カテゴリー</p>
@@ -82,6 +86,26 @@
                 </div>
             </div>
         </div>
+        <div class="item__information">
+            <div class="information__ttl">
+                <h3>出品者</h3>
+            </div>
+            <div class="seller__link">
+                <a href="{{ route('selleritem', $item->user->id) }}" class="seller__item-link">
+                    <div class="user__profile"> 
+                        <div class="profile__img">
+                            <img src="{{ $item->user->profile->img_url ? asset('storage/' . $item->user->profile->img_url) : asset('icon/face.svg') }}" alt="画像">
+                        </div>
+                        <div class="profile__name">
+                            <p>{{ $item->user->name }}</p>
+                        </div>
+                        <div class="icon__img">
+                            <img src="{{ asset('icon/rightarrow.svg') }}" alt="画像">
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>  
     </div>
 </div>
 @endsection
