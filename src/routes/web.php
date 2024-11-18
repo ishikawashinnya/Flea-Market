@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarketController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -49,3 +50,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/comment/store/{item_id}', [MarketController::class, 'storeComment'])->name('store.comment');
     Route::delete('/comment/{item_id}',[MarketController::class, 'destroyComment'])->name('destroy.comment');
 });
+
+Route::get('/userlist', [AdminController::class, 'getUsers'])->name('userlist');
+Route::delete('/userlist/{user_id}',[AdminController::class, 'destroyUser'])->name('destroy.user');

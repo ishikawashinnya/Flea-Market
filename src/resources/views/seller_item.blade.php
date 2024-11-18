@@ -9,7 +9,7 @@
     <div class="content__header">
         <div class="user__profile">
             <div class="profile__img">
-                <img src="{{ $sellerUser->profile->img_url ? asset('storage/' . $sellerUser->profile->img_url) : asset('icon/face.svg') }}" alt="画像">
+                <img src="{{ $profileImgUrl }}" alt="画像">
             </div>
             <div class="profile__name">
                 <p>{{ $sellerUser->name }}の出品商品</p>
