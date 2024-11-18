@@ -160,13 +160,13 @@ class MarketController extends Controller
 
     public function detail($item_id) {
         $item = Item::findOrFail($item_id);
-        $user = Auth::user();
+        $user = $item->user;
         $likes = Like::where('item_id', $item->id)->count();
         $comments = Comment::where('item_id', $item->id)->get();
         $category_items = $item->categories;
         $userLikes = $user ? Like::where('user_id', $user->id)->pluck('item_id')->toArray() : [];
         $profile = $user->profile ?? new Profile();
-        $profileImgUrl = $profile->img_url ?? asset('icon/face.svg');
+        $profileImgUrl = $profile && $profile->img_url ? asset('storage/' . $profile->img_url) : asset('icon/face.svg');
 
         return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_items', 'userLikes', 'profile', 'profileImgUrl'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
@@ -250,8 +250,8 @@ class MarketController extends Controller
         $sellerUser = User::findOrFail($user_id);
         $items = Item::where('user_id', $user_id)->get();
         $soldItems = Sold_item::pluck('item_id')->toArray();
-        $profile = $user->profile ?? new Profile();
-        $profileImgUrl = $profile->img_url ?? asset('icon/face.svg');
+        $profile = $sellerUser->profile ?? new Profile();
+        $profileImgUrl = $profile && $profile->img_url ? asset('storage/' . $profile->img_url) : asset('icon/face.svg');
         $likes = $user ? $user->likes()->pluck('item_id')->toArray() : [];
 
         return view ('seller_item', compact('user', 'sellerUser', 'likes', 'items', 'soldItems', 'profile', 'profileImgUrl'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);

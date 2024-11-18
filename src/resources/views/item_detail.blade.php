@@ -94,7 +94,7 @@
                 <a href="{{ route('selleritem', $item->user->id) }}" class="seller__item-link">
                     <div class="user__profile"> 
                         <div class="profile__img">
-                            <img src="{{ $item->user->profile->img_url ? asset('storage/' . $item->user->profile->img_url) : asset('icon/face.svg') }}" alt="画像">
+                            <img src="{{ $profileImgUrl }}" alt="画像">
                         </div>
                         <div class="profile__name">
                             <p>{{ $item->user->name }}</p>
