@@ -63,8 +63,5 @@
             </div>
         @endforeach
     </div>
-    <a href="{{ route('userlist') }}" class="detail__link">
-                        <p>ユーザーリスト</p>
-                    </a>
 </div>
 @endsection

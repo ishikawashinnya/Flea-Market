@@ -61,13 +61,13 @@
                                 <p>{{ $comment->user->name }}</p>
                             </div>
                             <div class="profile__img">
-                                <img src="{{ $comment->user->profile->img_url ? asset('storage/' . $comment->user->profile->img_url) : asset('icon/face.svg') }}" alt="画像">
+                                <img src="{{ isset($comment->user->profile) && $comment->user->profile->img_url ? asset('storage/' . $comment->user->profile->img_url) : asset('icon/face.svg') }}" alt="画像">
                             </div>
                         </div>
                         <div class="comment__view-area">
-                            <p>{{ $comment->comment }}</p>
+                            <p class="user__comment">{{ $comment->comment }}</p>
                             @if ($comment->user_id === Auth::id())
-                                <form action="{{ route('destroy.comment', ['item_id' => $item->id]) }}" method="POST" class="delete__form">
+                                <form action="{{ route('destroy.comment', ['comment_id' => $comment->id]) }}" method="POST" class="delete__form">
                                     @csrf
                                     @method('DELETE')
                                     <button class="delete__btn" type="submit" onclick="return confirm('コメントを削除しますか？')">削除</button>
@@ -79,16 +79,16 @@
                     <div class="buyer__comment">
                         <div class="buyer__user-profile">
                             <div class="profile__img">
-                                <img src="{{ $comment->user->profile->img_url ? asset('storage/' . $comment->user->profile->img_url) : asset('icon/face.svg') }}" alt="画像">
+                                <img src="{{ isset($comment->user->profile) && $comment->user->profile->img_url ? asset('storage/' . $comment->user->profile->img_url) : asset('icon/face.svg') }}" alt="画像">
                             </div>
                             <div class="profile__name">
                                 <p>{{ $comment->user->name }}</p>
                             </div>
                         </div>
                         <div class="comment__view-area">
-                            <p>{{ $comment->comment }}</p>
-                            @if ($comment->user_id === Auth::id())
-                                <form action="{{ route('destroy.comment', ['item_id' => $item->id]) }}" method="POST" class="delete__form">
+                            <p class="user__comment">{{ $comment->comment }}</p>
+                            @if ($comment->user_id === Auth::id() || $item->user_id === Auth::id())
+                                <form action="{{ route('destroy.comment', ['comment_id' => $comment->id]) }}" method="POST" class="delete__form">
                                     @csrf
                                     @method('DELETE')
                                     <button class="delete__btn" type="submit" onclick="return confirm('コメントを削除しますか？')">削除</button>
