@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="buy__link">
-            <a href="{{ route('buy', $item->id) }}" class="buy__link-btn">購入する</a>
+            <a href="{{ route('buy', ['item_id' => $item->id]) }}" class="buy__link-btn">購入する</a>
         </div>
         <div class="item__information">
             <div class="information__ttl">

@@ -28,7 +28,7 @@
                 <p class="address">{{ $profile->address }}</p>
                 <p class="building">{{ $profile->building }}</p>
             </div>
-            <a href="{{ route('edit.address', ['$item_id' => $item->id]) }}" class="change__link">変更する</a>
+            <a href="{{ route('edit.address', ['item_id' => $item->id]) }}" class="change__link">変更する</a>
         </div>
     </div>
 
@@ -49,7 +49,7 @@
         </div>
         <form action="" class="buy__form">
             @csrf
-            <input type="hidden" name="item_id" value="">
+            <input type="hidden" name="item_id" value="{{ $item->id }}">
             <div class="form__button">
                 <button class="form__button-submit" type="submit">購入する</button>
             </div>

@@ -217,9 +217,10 @@ class MarketController extends Controller
         $likes = Like::where('item_id', $item->id)->count();
         $comments = Comment::where('item_id', $item->id)->get();
         $userLikes = $user ? Like::where('user_id', $user->id)->pluck('item_id')->toArray() : [];
-        $profile = auth()->user()->profile;
+        $profile = $user->profile ?? new Profile();
+        $profileImgUrl = $profile && $profile->img_url ? asset('storage/' . $profile->img_url) : asset('icon/face.svg');
 
-        return view('comment', compact('item', 'user', 'likes', 'comments',  'userLikes', 'profile'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
+        return view('comment', compact('item', 'user', 'likes', 'comments',  'userLikes', 'profile', 'profileImgUrl'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
 
     public function storeComment(Request $request, $item_id) {
@@ -233,11 +234,11 @@ class MarketController extends Controller
         return redirect()->back();
     }
 
-    public function destroyComment($item_id) {
+    public function destroyComment($comment_id) {
         $user = Auth::user();
 
         $comment = Comment::where('user_id', $user->id)
-                          ->where('item_id', $item_id)
+                          ->where('id', $comment_id)
                           ->firstOrFail();
 
         $comment->delete();
