@@ -36,10 +36,16 @@
                                 <button class="header__nav-button">ログアウト</button>
                             </form>
                         </li>
-                        @if (!empty($showMypageButton) && $showMypageButton)
+                        @if (Auth::user()->hasRole('admin'))
                             <li class="header__nav-item">
-                                <a href="{{ route('mypage') }}" class="header__nav-link">マイページ</a>
+                                <a href="{{ route('admin') }}" class="header__nav-link">管理画面</a>
                             </li>
+                        @else
+                            @if (!empty($showMypageButton) && $showMypageButton)
+                                <li class="header__nav-item">
+                                    <a href="{{ route('mypage') }}" class="header__nav-link">マイページ</a>
+                                </li>
+                            @endif
                         @endif
                         @if (!empty($showToppageButton) && $showToppageButton)
                             <li class="header__nav-item">

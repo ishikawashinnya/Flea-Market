@@ -144,6 +144,12 @@
     margin-bottom: 4%;
 }
 
+.user__comment {
+    width: 100%;
+    white-space: pre-wrap;
+    font-size: 16px;
+}
+
 .delete__form {
     width: 100%;
     display: flex;

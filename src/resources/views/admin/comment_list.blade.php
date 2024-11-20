@@ -8,7 +8,7 @@
 <div class="list__content">
     <div class="list__header">
         <div class="list__ttl">
-            <h2>ユーザー一覧</h2>
+            <h2>コメント一覧</h2>
         </div>
         <div class="alert">
             @if(session('success'))
@@ -22,27 +22,27 @@
     <div class="list__main">
         <table class="list__table">
             <tr class="title__row">
-                <th class="table__label">ユーザーID</th>
-                <th class="table__label">名前</th>
-                <th class="table__label">メールアドレス</th>
+                <th class="comment__user-label">ユーザー名</th>
+                <th class="item__name-label">投稿商品名</th>
+                <th class="comment__list-label">コメント</th>
             </tr>
 
-            @foreach ($users as $user)
-                <tr class="value__row">
-                    <td class="value__list">
-                        {{ $user->id }}
+            @foreach ($comments as $comment)
+                <tr class="comment__row">
+                    <td class="comment__user">
+                        {{ $comment->user->name }}
                     </td>
-                    <td class="value__list">
-                        {{ $user->name }}
+                    <td class="item__name">
+                        {{ $comment->item->name }}
                     </td>
-                    <td class="value__list">
-                        {{ $user->email }}
+                    <td class="comment__list">
+                        <p class="user__comment">{{ $comment->comment }}</p>
                     </td>
                     <td>
-                        <form action="{{ route('destroy.user', ['user_id' => $user->id]) }}" method="POST" class="delete__form">
+                        <form action="{{ route('destroy.comment', ['comment_id' => $comment->id]) }}" method="POST" class="delete__form">
                             @csrf
                             @method('DELETE')
-                            <button class="delete__btn" type="submit" onclick="return confirm('ユーザーを削除しますか？')">削除</button>
+                            <button class="delete__btn" type="submit" onclick="return confirm('コメントを削除しますか？')">削除</button>
                         </form>
                     </td>
                 </tr>
@@ -51,7 +51,7 @@
     </div>
 
     <div class="pagination">
-        {{ $users->links('vendor/pagination/custom') }}
+        {{ $comments->links('vendor/pagination/custom') }}
     </div>
 </div>
 @endsection
