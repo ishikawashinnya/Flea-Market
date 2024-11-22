@@ -93,7 +93,7 @@
 }
 
 .form__error {
-    color: red;
+    color: #DC143C;
 }
 
 .alert__success {
