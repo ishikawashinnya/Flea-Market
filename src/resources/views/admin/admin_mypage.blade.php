@@ -22,7 +22,7 @@
             </a>
         </div>
         <div class="admin__link">
-            <a href="{{ route('notificatino.create') }}" class="admin__link-item">
+            <a href="{{ route('mailform') }}" class="admin__link-item">
                 <p>メールフォーム</p>
             </a>
         </div>                 

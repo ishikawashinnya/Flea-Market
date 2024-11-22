@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Pagination\Paginator;
+use App\Mail\NotificationMail;
+use Illuminate\Support\Facades\Mail;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
@@ -39,7 +42,22 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'コメントが削除されました');
     }
 
-    public function createNotification() {
-        return view('admin.email_notification');
+    public function mailform() {
+        return view('admin.mail', ['showMypageButton' => true, 'showToppageButton' => true]);
+    }
+
+    public function sendMail(Request $request){
+        $destination = $request->input('destination');
+        $message = $request->input('message');
+
+        if ($destination === 'user') {
+            $users = User::doesntHave('roles')->get();
+        }
+
+        foreach ($users as $user) {
+            Mail::to($user->email)->send(new NotificationMail($user, $message));
+        }
+
+        return redirect()->back()->with('success', 'メールが送信されました');
     }
 }

@@ -58,6 +58,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/userlist/{user_id}',[AdminController::class, 'destroyUser'])->name('destroy.user');
     Route::get('/commentlist', [AdminController::class, 'getComments'])->name('commentlist');
     Route::delete('/commentlist/{comment_id}',[AdminController::class, 'destroyComment'])->name('destroy.comment');
-    Route::get('/notification/create', [AdminController::class, 'createNotification'])->name('notificatino.create');
-    
+    Route::get('/mailform', [AdminController::class, 'mailform'])->name('mailform');
+    Route::post('/mail/send', [AdminController::class, 'sendMail'])->name('send.mail');
 });
