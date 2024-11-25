@@ -46,6 +46,20 @@
                     @enderror
                 </div>
             </div>
+
+            <div class="content__header">
+                <h3>配送先情報</h3>
+            </div>
+
+            <div class="form__input">
+                <label for="shipping_name">配送先氏名</label>
+                <input type="text" name="shipping_name" id="shipping_name" value="{{ old('shipping_name', $profile->shipping_name ?? '') }}" placeholder = "配送先氏名" >
+                <div class="form__error">
+                    @error('postcode')
+                        {{ $message }}
+                    @enderror
+                </div>
+            </div>
             
             <div class="form__input">
                 <label for="postcode">郵便番号</label>

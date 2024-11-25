@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -40,6 +41,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/purchase/address/{item_id}', [MarketController::class, 'editAddress'])->name('edit.address');
     Route::post('address/update', [MarketController::class, 'updateAddress'])->name('update.address');
+    Route::get('/purchase/method/{item_id}', [MarketController::class, 'editPaymentMethod'])->name('edit.method');
+    Route::post('method/update', [MarketController::class, 'updatePaymentMethod'])->name('update.method');
 
     Route::get('/sell', [MarketController::class, 'sell'])->name('sell');
     Route::post('/sell/store', [MarketController::class, 'storeSell'])->name('store.sell');
@@ -49,6 +52,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/comment/{item_id}', [MarketController::class, 'comment'])->name('comment');
     Route::post('/comment/store/{item_id}', [MarketController::class, 'storeComment'])->name('store.comment');
     Route::delete('/comment/{comment_id}',[MarketController::class, 'destroyComment'])->name('destroy.comment');
+
+    Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+    Route::get('/purchase/success/{item_id}', [PaymentController::class, 'success'])->name('success');
+    Route::get('/purchase/cancel/{item_id}', [PaymentController::class, 'cancel'])->name('cancel');
 });
 
 //AdminRoute
@@ -61,3 +68,4 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/mailform', [AdminController::class, 'mailform'])->name('mailform');
     Route::post('/mail/send', [AdminController::class, 'sendMail'])->name('send.mail');
 });
+
