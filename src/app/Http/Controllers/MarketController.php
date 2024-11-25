@@ -117,6 +117,7 @@ class MarketController extends Controller
 
         $profile = $user->profile ?? new Profile();
         $profile->user_id = $user->id;
+        $profile->shipping_name = $request->shipping_name;
         $profile->postcode = $request->postcode;
         $profile->address = $request->address;
         $profile->building = $request->building;
@@ -134,12 +135,13 @@ class MarketController extends Controller
         return redirect()->route('profile')->with('success', 'プロフィールが更新されました');
     }
 
-    public function editAddress(Request $request) {
+    public function editAddress(Request $request, $item_id) {
         $user = Auth::user();
         $profile = $user->profile ?? new Profile();
+        $item = Item::findOrFail($item_id);
         $item_id = $request->query('item_id');
 
-        return view ('edit_address', compact('user', 'profile', 'item_id'), ['showMypageButton' => true, 'showToppageButton' => true]);
+        return view ('edit_address', compact('user', 'profile', 'item_id', 'item'), ['showMypageButton' => true, 'showToppageButton' => true]);
     }
 
     public function updateAddress(AddressRequest $request) {
@@ -147,6 +149,7 @@ class MarketController extends Controller
 
         $profile = $user->profile ?? new Profile();
         $profile->user_id = $user->id;
+        $profile->shipping_name = $request->shipping_name;
         $profile->postcode = $request->postcode;
         $profile->address = $request->address;
         $profile->building = $request->building;
@@ -155,7 +158,30 @@ class MarketController extends Controller
 
         $item_id = $request->input('item_id');
 
-        return redirect()->route('edit.address')->with('success', '配送先が更新されました');
+        return redirect()->back()->with('success', '配送先が更新されました');
+    }
+
+    public function editPaymentMethod(Request $request, $item_id) {
+        $user = Auth::user();
+        $profile = $user->profile;
+
+        if (is_null($profile)) {
+            return redirect()->route('edit.address', ['item_id' => $item_id])
+                ->with('error', '先に配送先情報を登録してください。');
+        }
+
+        $item = Item::findOrFail($item_id);
+        $item_id = $request->query('item_id');
+
+        return view ('edit_payment_method', compact('user', 'profile', 'item_id', 'item'), ['showMypageButton' => true, 'showToppageButton' => true]);
+    }
+
+    public function updatePaymentMethod(Request $request) {
+        $profile = Auth::user()->profile;
+        $profile->payment_method = $request->payment_method;
+        $profile->save();
+
+        return redirect()->back()->with('success', '支払い方法を変更しました');
     }
 
     public function detail($item_id) {

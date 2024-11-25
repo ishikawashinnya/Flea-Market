@@ -1,51 +1,52 @@
-.auth__content {
-    max-width: 1280px;
+.edit__content {
     margin: 0 auto;
+    width: 100%;
+}
+
+.content__header {
+    margin-top: 3%;
     text-align: center;
 }
 
-.auth__header {
-    margin-top: 5%;
-    margin-bottom: 3%;
-}
-
-.auth__content-form {
+.content__main {
     width: 100%;
-}
-
-.form {
-    width: 100%;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.form__input {
-    width: 400px;
+.profile__form {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    text-align: left;
-    margin-bottom: 5%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1%;
 }
 
-.form__input label {
-    font-size: 13px;
+.form__input {
+    width: 180px;
+}
+
+.input__label {
+    display: flex;
+    align-items: center;
+}
+
+.input__name {
+    margin-left: 10px;
+    font-size: 18px;
     font-weight: bold;
 }
 
-.form__input input {
-    height: 35px;
-    border: 1px solid rgb(115, 115, 115);
-    border-radius: 3px;
-    font-size: 18px;
-}
-
 .form__button {
-    width: 400px;
+    width: 450px;
     background-color: #FF5555;
     border: 1px solid rgb(255, 85, 85);
     border-radius: 3px;
+    margin-top: 1%;
 }
 
 .form__button-submit {
@@ -59,16 +60,16 @@
     font-weight: bold;
 }
 
-.auth__link {
-    margin-top: 1%;
-}
-
-.link__button {
-    font-size: 12px;
+.back__link-btn {
     text-decoration: none;
     color: #3560f6;
+    font-weight: bold;
 }
 
 .form__error {
     color: #DC143C;
+}
+
+.alert__success {
+    color: #32CD32;
 }

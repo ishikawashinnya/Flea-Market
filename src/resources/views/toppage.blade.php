@@ -32,7 +32,7 @@
                         </div>
                     @endif
                     <div class="card__item">
-                        <p class="item__price">&yen;{{ $item->price }}</p>                  
+                        <p class="item__price">&yen;{{ number_format($item->price) }}</p>                  
                         <div class="item__like">
                             @if (in_array($item->id, $likes))
                                 <form action="{{ route('destroy.like', $item->id) }}" method="POST" class="item__like-form">
