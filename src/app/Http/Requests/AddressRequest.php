@@ -24,6 +24,7 @@ class AddressRequest extends FormRequest
     public function rules()
     {
         return [
+            'shipping_name' => ['required', 'string', 'max:191'],
             'postcode' => ['required', 'string', 'regex:/^(?!.*[^0-9-]).*$/', 'regex:/^\d{3}-\d{4}$|^\d{7}$/'],
             'address' => ['required', 'string', 'max:191'],
             'building' => ['nullable', 'string', 'max:191']
@@ -33,6 +34,9 @@ class AddressRequest extends FormRequest
     public function messages() 
     {
         return [
+            'shipping_name.required' => '配送先氏名を入力してください',
+            'shipping_name.string' => '配送先氏名を文字列で入力してください',
+            'shipping_name.max' => '配送先氏名を191文字以下で入力してください',
             'postcode.required' => '郵便番号を入力してください',
             'postcode.string' => '郵便番号を文字列で入力してください',
             'postcode.regex' => '郵便番号は「123-4567」または「1234567」の形式で、1-9の数字のみで入力してください',
