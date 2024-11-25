@@ -63,6 +63,11 @@
     width: 25%;
 }
 
+.content__groupe label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
 .payment__method {
     position: absolute;
     left: 35%;
@@ -71,7 +76,13 @@
 .shipping__address {
     position: absolute;
     left: 35%;
-    top: 5%;
+    top: 25%;
+}
+
+.change__link {
+    text-decoration: none;
+    color: #3560f6;
+    font-weight: bold;
 }
 
 .content__right {
@@ -85,7 +96,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
+    font-size: clamp(12px, 1vw, 14px);
     margin-top: -20%;
 }
 
@@ -98,11 +109,11 @@
 }
 
 .information__ttl {
-    width: 50%;
+    width: 40%;
 }
 
 .information__value {
-    width: 30%;
+    width: 55%;
 }
 
 .information__payment-price {
