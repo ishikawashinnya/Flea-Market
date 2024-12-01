@@ -19,11 +19,10 @@
 }
 
 .list__main {
-    width: 100%;
+    width: 99%;
     padding-top: 20px;
     display: flex;
     text-align: left;
-    margin-left: 1%;
 }
 
 .list__table {
@@ -36,36 +35,7 @@
     width: 100%;
     line-height: 50px;
     border-top: 1px solid #464545;
-}
-
-.table__label {
-    white-space: nowrap;
-    width: 33%;
-    font-size: clamp(18px, 2vw, 24px);
-}
-
-.value__row {
-    border-top: 1px solid #464545;
-    line-height: 50px;
-    font-weight: bold;
-}
-
-.value__list {
-    white-space: nowrap;
-    width: 33%;
-    font-size: clamp(18px, 2vw, 24px);
-}
-
-.comment__row {
-    width: 100%;
-    border-top: 1px solid #464545;
-    font-size: clamp(12px, 2vw, 16px);
-}
-
-.item__name-label {
-    white-space: nowrap;
-    width: 28%;
-    font-size: clamp(18px, 2vw, 24px);
+    border-spacing: 10px;
 }
 
 .comment__user-label {
@@ -74,16 +44,36 @@
     font-size: clamp(18px, 2vw, 24px);
 }
 
+.item__name-label {
+    white-space: nowrap;
+    width: 29%;
+    font-size: clamp(18px, 2vw, 24px);
+    padding-left: 10px;
+}
+
 .comment__list-label {
     white-space: nowrap;
     width: 50%;
     font-size: clamp(18px, 2vw, 24px);
+    padding-left: 10px;
+}
+
+.comment__row {
+    width: 100%;
+    border-top: 1px solid #464545;
+    font-size: clamp(12px, 2vw, 16px);
+}
+
+.item__name {
+    padding-left: 10px;
+}
+
+.comment__list {
+    padding-left: 10px;
 }
 
 .user__comment {
-    width: 100%;
     white-space: pre-wrap;
-    font-size: 16px;
 }
 
 .delete__form {
@@ -109,15 +99,29 @@
 }
 
 @media screen and (max-width: 768px) {
-    .table__label {
+    .comment__user-label {
         white-space: nowrap;
-        width: 33%;
+        width: 20%;
         font-size: clamp(10px, 1.5vw, 12px);
     }
-
-    .value__list {
+    
+    .item__name-label {
         white-space: nowrap;
-        width: 33%;
+        width: 29%;
+        font-size: clamp(10px, 1.5vw, 12px);
+        padding-left: 10px;
+    }
+    
+    .comment__list-label {
+        white-space: nowrap;
+        width: 50%;
+        font-size: clamp(10px, 1.5vw, 12px);
+        padding-left: 10px;
+    }
+    
+    .comment__row {
+        width: 100%;
+        border-top: 1px solid #464545;
         font-size: clamp(10px, 1.5vw, 12px);
     }
 }
