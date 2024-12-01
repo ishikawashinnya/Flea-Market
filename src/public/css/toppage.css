@@ -15,7 +15,7 @@
     display: flex;
     justify-content: center;
     margin-left: 7%;
-    font-size: 15px;
+    font-size: clamp(13px, 1.5vw, 16px);
     font-weight: bold;
 }
 
@@ -96,7 +96,7 @@
 
 .item__price {
     background-color: rgba(0, 0, 0, 0.5);
-    font-size: 18px;
+    font-size: clamp(12px, 1.5vw, 18px);;
     font-weight: bold;
     color: #fff;
     border-radius: 0 45px 45px 0;
@@ -147,4 +147,35 @@
     overflow: hidden;
     text-overflow: ellipsis;
     padding-top: 2%;
+}
+
+@media screen and (max-width: 768px) {
+    .header__tab {
+        width: 12%;
+        display: flex;
+        justify-content: center;
+        margin-left: 7%;
+        font-size: clamp(11px, 2vw, 16px);
+        font-weight: bold;
+    }
+
+    .card {
+        width: 28%;
+        height: 220px;
+        border: none;
+        margin-top: 5%;
+        margin-right: 2%;
+        margin-left: 3%;
+    }
+
+    .item__price {
+        background-color: rgba(0, 0, 0, 0.5);
+        font-size: clamp(14px, 2.5vw, 16px);
+        font-weight: bold;
+        color: #fff;
+        border-radius: 0 45px 45px 0;
+        padding-top: 5px;
+        padding-bottom: 3px;
+        padding-right: 15px;
+    }
 }

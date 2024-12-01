@@ -8,11 +8,7 @@
 <div class="comment__content">
     <div class="content__left">
         <div class="item__img">
-            @if (filter_var($item->img_url, FILTER_VALIDATE_URL))
-                <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
-             @else
-                <img src="{{ asset('storage/item_images/' . $item->img_url) }}" alt="{{ $item->name }}">
-            @endif
+            <img src="{{ asset($item->img_url) }}" alt="{{ $item->name }}">
         </div>
     </div>
 
@@ -61,7 +57,7 @@
                                 <p>{{ $comment->user->name }}</p>
                             </div>
                             <div class="profile__img">
-                                <img src="{{ isset($comment->user->profile) && $comment->user->profile->img_url ? asset('storage/' . $comment->user->profile->img_url) : asset('icon/face.svg') }}" alt="画像">
+                                <img src="{{ isset($comment->user->profile) && $comment->user->profile->img_url ? asset($comment->user->profile->img_url) : asset('icon/face.svg') }}" alt="画像">
                             </div>
                         </div>
                         <div class="comment__view-area">
@@ -79,7 +75,7 @@
                     <div class="buyer__comment">
                         <div class="buyer__user-profile">
                             <div class="profile__img">
-                                <img src="{{ isset($comment->user->profile) && $comment->user->profile->img_url ? asset('storage/' . $comment->user->profile->img_url) : asset('icon/face.svg') }}" alt="画像">
+                                <img src="{{ isset($comment->user->profile) && $comment->user->profile->img_url ? asset($comment->user->profile->img_url) : asset('icon/face.svg') }}" alt="画像">
                             </div>
                             <div class="profile__name">
                                 <p>{{ $comment->user->name }}</p>

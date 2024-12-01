@@ -21,11 +21,7 @@
             <div class="card">
                 <div class="item__img">
                     <a href="{{ route('detail', $item->id) }}" class="detail__link">
-                        @if (filter_var($item->img_url, FILTER_VALIDATE_URL))
-                           <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
-                        @else
-                            <img src="{{ asset('storage/item_images/' . $item->img_url) }}" alt="{{ $item->name }}" >
-                        @endif
+                        <img src="{{ asset($item->img_url) }}" alt="{{ $item->name }}">
                     </a>
                     @if (in_array($item->id, $soldItems))
                         <div class="card__message">
