@@ -10,7 +10,7 @@
         <div class="header__profile">
             <div class="user__profile">
                 <div class="profile__img">
-                    <img src="{{ $profile->img_url ? asset('storage/' . $profile->img_url) : asset('icon/face.svg') }}" alt="画像">
+                    <img src="{{ $profile->img_url ? asset($profile->img_url) : asset('icon/face.svg') }}" alt="画像">
                 </div>
                 <div class="profile__name">
                     <p>{{ $user->name }}</p>
@@ -35,11 +35,7 @@
             <div class="card">
                 <div class="item__img">
                     <a href="{{ route('detail', $item->id) }}" class="detail__link">
-                        @if (filter_var($item->img_url, FILTER_VALIDATE_URL))
-                           <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
-                        @else
-                            <img src="{{ asset('storage/item_images/' . $item->img_url) }}" alt="{{ $item->name }}" >
-                        @endif
+                        <img src="{{ asset($item->img_url) }}" alt="{{ $item->name }}">
                     </a>
                     @if (in_array($item->id, $soldItems))
                         <div class="card__message">

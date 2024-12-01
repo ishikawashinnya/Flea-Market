@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Like;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
 
-class UserSeeder extends Seeder
+class LikesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->count(10)->create();
+        Like::factory()->count(50)->create();
     }
 }

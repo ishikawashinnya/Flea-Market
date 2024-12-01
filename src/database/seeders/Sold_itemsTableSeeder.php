@@ -15,32 +15,26 @@ class Sold_itemsTableSeeder extends Seeder
     public function run()
     {
         $param = [
-            'user_id' => '1',
+            'user_id' => '3',
             'item_id' => '1'
         ];
         DB::table('sold_items')->insert($param);
 
         $param = [
-            'user_id' => '1',
-            'item_id' => '2'
-        ];
-        DB::table('sold_items')->insert($param);
-
-        $param = [
-            'user_id' => '1',
-            'item_id' => '3'
-        ];
-        DB::table('sold_items')->insert($param);
-
-        $param = [
-            'user_id' => '1',
-            'item_id' => '4'
-        ];
-        DB::table('sold_items')->insert($param);
-
-        $param = [
-            'user_id' => '1',
+            'user_id' => '2',
             'item_id' => '5'
+        ];
+        DB::table('sold_items')->insert($param);
+
+        $param = [
+            'user_id' => '2',
+            'item_id' => '8'
+        ];
+        DB::table('sold_items')->insert($param);
+
+        $param = [
+            'user_id' => '2',
+            'item_id' => '10'
         ];
         DB::table('sold_items')->insert($param);
     }

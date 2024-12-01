@@ -9,7 +9,7 @@
     <div class="content__left">
         <div class="item__information">
             <div class="item__img">
-                <img src="{{ asset('storage/item_images/' . $item->img_url) }}" alt="商品画像">
+                <img src="{{ asset($item->img_url) }}" alt="{{ $item->name }}">
             </div>
             <div class="item__detail">
                 <p class="item__name">{{ $item->name }}</p>
@@ -82,13 +82,23 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('checkout') }}" method="POST" class="buy__form">
-            @csrf
-            <input type="hidden" name="item_id" value="{{ $item->id }}">
-            <div class="form__button">
-                <button class="form__button-submit" type="submit">購入する</button>
-            </div>
-        </form>
+        @if (isset($profile) && $profile->payment_method == 'bank_transfer')
+            <form action="{{ route('banktransfer') }}" method="POST" class="buy__form">
+                @csrf
+                <input type="hidden" name="item_id" value="{{ $item->id }}">
+                <div class="form__button">
+                    <button class="form__button-submit" type="submit">購入する</button>
+                </div>
+            </form>
+        @else
+            <form action="{{ route('checkout') }}" method="POST" class="buy__form">
+                @csrf
+                <input type="hidden" name="item_id" value="{{ $item->id }}">
+                <div class="form__button">
+                    <button class="form__button-submit" type="submit">購入する</button>
+                </div>
+            </form>
+        @endif
     </div>
 </div>
 @endsection

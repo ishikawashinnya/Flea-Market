@@ -8,11 +8,7 @@
 <div class="detail__content">
     <div class="content__left">
         <div class="item__img">
-            @if (filter_var($item->img_url, FILTER_VALIDATE_URL))
-                <img src="{{ $item->img_url }}" alt="{{ $item->name }}">
-             @else
-                <img src="{{ asset('storage/item_images/' . $item->img_url) }}" alt="{{ $item->name }}">
-            @endif
+            <img src="{{ asset($item->img_url) }}" alt="{{ $item->name }}">
         </div>
     </div>
 
@@ -55,7 +51,11 @@
             </div>
         </div>
         <div class="buy__link">
-            <a href="{{ route('buy', ['item_id' => $item->id]) }}" class="buy__link-btn">購入する</a>
+            @if (is_null($sold_item))
+                <a href="{{ route('buy', ['item_id' => $item->id]) }}" class="buy__link-btn">購入する</a>
+            @else
+                <p class="buy__link-message">この商品は売り切れました</p>
+            @endif
         </div>
         <div class="item__information">
             <div class="information__ttl">

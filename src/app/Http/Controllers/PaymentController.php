@@ -65,13 +65,88 @@ class PaymentController extends Controller
                 'user_id' => Auth::id(),
             ]);
 
-            return view('thanks', compact('item_id'));
+            return view('thanks', compact('item_id'), ['showMypageButton' => true, 'showToppageButton' => true]);
         } catch (\Exception $e) {
             return back()->with('error', '購入情報の保存に失敗しました');
         }
     }
 
     public function cancel($item_id) {
-        return view('cancel', compact('item_id'));
+        return view('cancel', compact('item_id'), ['showMypageButton' => true, 'showToppageButton' => true]);
+    }
+
+    public function __construct()
+    {
+        Stripe::setApiKey(config('services.stripe.secret'));
+    }
+
+    public function banktransfer(Request $request)
+    {
+        $item = Item::findOrFail($request->item_id);
+
+        $stripe = new StripeClient(config('services.stripe.secret'));
+
+        $customerId = $this->createOrGetCustomer($request);
+
+        try {
+            $paymentIntent = $stripe->paymentIntents->create([
+                'amount' => $item->price,
+                'currency' => 'jpy',
+                'customer' => $customerId,
+                'payment_method_types' => ['customer_balance'], 
+                'payment_method_data' => ['type' => 'customer_balance'],
+                'payment_method_options' => [
+                    'customer_balance' => [
+                        'funding_type' => 'bank_transfer',
+                        'bank_transfer' => ['type' => 'jp_bank_transfer'],
+                    ],
+                ],
+                'confirm' => true, 
+            ]);
+        } catch (\Exception $e) {
+            return view('error')->with('message', 'PaymentIntent作成中にエラーが発生しました: ' . $e->getMessage());
+        }
+
+        try {
+            $paymentIntentDetails = $stripe->paymentIntents->retrieve($paymentIntent->id);
+
+            if (isset($paymentIntentDetails->next_action->display_bank_transfer_instructions)) {
+                $bankTransferInfo = $paymentIntentDetails->next_action->display_bank_transfer_instructions->financial_addresses[0];
+                $amountRemaining = $paymentIntentDetails->amount_remaining;
+
+                Sold_item::create([
+                    'item_id' => $item->id,
+                    'user_id' => $request->user()->id,
+                ]);
+
+                return view('success', [
+                    'hosted_instructions_url' => $paymentIntentDetails->next_action->display_bank_transfer_instructions->hosted_instructions_url,
+            ], ['showMypageButton' => true, 'showToppageButton' => true]);
+            } else {
+                return view('error', ['showMypageButton' => true, 'showToppageButton' => true])->with('message', '銀行振込の情報が見つかりません。');
+            }
+        } catch (\Exception $e) {
+            return view('error', ['showMypageButton' => true, 'showToppageButton' => true])->with('message', '支払い情報の取得中にエラーが発生しました: ' . $e->getMessage());
+        }
+    }
+
+    private function createOrGetCustomer(Request $request)
+    {
+        $stripe = new StripeClient(config('services.stripe.secret'));
+        $user = $request->user();
+
+        if ($user->stripe_customer_id) {
+            return $user->stripe_customer_id;
+        }
+
+        $customer = $stripe->customers->create([
+            'name' => $user->name,
+            'email' => $user->email,
+        ]);
+
+        $user->stripe_customer_id = $customer->id;
+        $user->save();
+
+        return $customer->id;
     }
 }

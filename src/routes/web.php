@@ -56,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
     Route::get('/purchase/success/{item_id}', [PaymentController::class, 'success'])->name('success');
     Route::get('/purchase/cancel/{item_id}', [PaymentController::class, 'cancel'])->name('cancel');
+
+    Route::post('/purchase/banktransfer', [PaymentController::class, 'banktransfer'])->name('banktransfer');
 });
 
 //AdminRoute
@@ -68,4 +70,3 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/mailform', [AdminController::class, 'mailform'])->name('mailform');
     Route::post('/mail/send', [AdminController::class, 'sendMail'])->name('send.mail');
 });
-
