@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Category_item;
+use App\Models\Item;
 
 class Category_itemsTableSeeder extends Seeder
 {
@@ -26,22 +28,6 @@ class Category_itemsTableSeeder extends Seeder
         ];
         DB::table('category_items')->insert($param);
 
-        $param = [
-            'item_id' => '3',
-            'category_id' => '3'
-        ];
-        DB::table('category_items')->insert($param);
-
-        $param = [
-            'item_id' => '4',
-            'category_id' => '4'
-        ];
-        DB::table('category_items')->insert($param);
-
-        $param = [
-            'item_id' => '5',
-            'category_id' => '5'
-        ];
-        DB::table('category_items')->insert($param);
+        Category_item::factory()->count(20)->create();
     }
 }

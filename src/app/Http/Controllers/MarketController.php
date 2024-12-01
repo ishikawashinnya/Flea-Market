@@ -122,13 +122,20 @@ class MarketController extends Controller
         $profile->address = $request->address;
         $profile->building = $request->building;
 
+        //ローカル時
         if ($request->hasFile('img_url')) {
             if ($profile->img_url) {
                 Storage::disk('public')->delete($profile->img_url);
             }
             $img_url = $request->file('img_url')->store('profile_imgs', 'public');
-            $profile->img_url = $img_url;
-        } 
+            $profile->img_url = 'storage/' . $img_url;
+        }
+
+        //AWSデプロイ時
+        // if ($request->hasFile('img_url')) {
+            // $img_url = $request->file('img_url')->store('profile_imgs', 's3');
+            // $profile->img_url = Storage::disk('s3')->url($img_url);
+        // } 
 
         $profile->save();
 
@@ -192,9 +199,10 @@ class MarketController extends Controller
         $category_items = $item->categories;
         $userLikes = $user ? Like::where('user_id', $user->id)->pluck('item_id')->toArray() : [];
         $profile = $user->profile ?? new Profile();
-        $profileImgUrl = $profile && $profile->img_url ? asset('storage/' . $profile->img_url) : asset('icon/face.svg');
+        $profileImgUrl = $profile && $profile->img_url ? asset($profile->img_url) : asset('icon/face.svg');
+        $sold_item = Sold_item::where('item_id', $item->id)->first();
 
-        return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_items', 'userLikes', 'profile', 'profileImgUrl'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
+        return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_items', 'userLikes', 'profile', 'profileImgUrl', 'sold_item'), ['showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
 
     public function sell() {
@@ -213,10 +221,17 @@ class MarketController extends Controller
         $item->description = $request->input('description');
         $item->condition_id = $request->input('condition_id');
 
+        //ローカル時
         if ($request->hasFile('img_url')) {
             $img_url = $request->file('img_url')->store('item_images', 'public');
-            $item->img_url = str_replace('item_images/', '', $img_url);
+            $item->img_url = 'storage/' . $img_url;
         }
+
+        // AWSデプロイ時
+        // if ($request->hasFile('img_url')) {
+            // $img_url = $request->file('img_url')->store('item_images', 's3');
+            // $item->img_url = Storage::disk('s3')->url($img_url);
+        // }
 
         $item->save();
 
@@ -234,7 +249,7 @@ class MarketController extends Controller
         $item = Item::findOrFail($item_id);
         $profile = auth()->user()->profile;
 
-        return view ('buypage', compact('user', 'item', 'profile'), ['showSearchForm' => true, 'showMypageButton' => true, 'showSellpageButton' => true]);
+        return view ('buypage', compact('user', 'item', 'profile'), ['showMypageButton' => true, 'showSellpageButton' => true]);
     }
 
     public function comment($item_id) {
@@ -244,7 +259,7 @@ class MarketController extends Controller
         $comments = Comment::where('item_id', $item->id)->get();
         $userLikes = $user ? Like::where('user_id', $user->id)->pluck('item_id')->toArray() : [];
         $profile = $user->profile ?? new Profile();
-        $profileImgUrl = $profile && $profile->img_url ? asset('storage/' . $profile->img_url) : asset('icon/face.svg');
+        $profileImgUrl = $profile && $profile->img_url ? asset($profile->img_url) : asset('icon/face.svg');
 
         return view('comment', compact('item', 'user', 'likes', 'comments',  'userLikes', 'profile', 'profileImgUrl'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
@@ -272,14 +287,21 @@ class MarketController extends Controller
         return redirect()->back();
     }
 
-    public function sellerItem($user_id) {
+    public function sellerItem(Request $request, $user_id) {
         $user = Auth::user();
         $sellerUser = User::findOrFail($user_id);
         $items = Item::where('user_id', $user_id)->get();
         $soldItems = Sold_item::pluck('item_id')->toArray();
         $profile = $sellerUser->profile ?? new Profile();
-        $profileImgUrl = $profile && $profile->img_url ? asset('storage/' . $profile->img_url) : asset('icon/face.svg');
+        $profileImgUrl = $profile && $profile->img_url ? asset($profile->img_url) : asset('icon/face.svg');
         $likes = $user ? $user->likes()->pluck('item_id')->toArray() : [];
+        $keyword = $request->input('word');
+
+        if ($keyword) {
+            $items = Item::where('user_id', $sellerUser->id)->where('name', 'LIKE', '%' . $keyword . '%')->get();
+        } else {
+            $items = Item::where('user_id', $sellerUser->id)->get();
+        }
 
         return view ('seller_item', compact('user', 'sellerUser', 'likes', 'items', 'soldItems', 'profile', 'profileImgUrl'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }

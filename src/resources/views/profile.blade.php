@@ -24,7 +24,7 @@
 
             <div class="img__field">
                 <div class="img__preview">
-                    <img id="profile__img" src="{{ $profile->img_url ? asset('storage/' . $profile->img_url) : asset('icon/face.svg') }}" alt="画像">
+                    <img id="profile__img" src="{{ $profile->img_url ? asset($profile->img_url) : asset('icon/face.svg') }}" alt="画像">
                 </div>
                 <div class="img__select">
                     <label for="img" class="img__select-label">画像を選択する</label>
