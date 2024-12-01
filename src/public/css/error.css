@@ -1,0 +1,13 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button {
+    text-decoration: none;
+    font-weight: bold;
+    color: #3560f6;
+}
