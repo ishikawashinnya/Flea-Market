@@ -20,9 +20,7 @@ class ItemFactory extends Factory
         $imageFiles = File::files(public_path('/img'));
         $randomImage = $imageFiles[array_rand($imageFiles)];
         $imageName = $randomImage->getFilename();
-        $destinationPath = storage_path('app/public/item_images/' . $imageName);
-        File::copy($randomImage, $destinationPath);
-        $imgUrl = 'storage/item_images/' . $imageName;
+        $imgUrl = 'img/' . $imageName;
 
         return [
             'name' => $faker->word(),
