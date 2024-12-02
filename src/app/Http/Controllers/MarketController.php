@@ -14,6 +14,7 @@ use App\Models\Condition;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\AddressRequest;
+use App\Http\Requests\SellRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -213,7 +214,7 @@ class MarketController extends Controller
         return view ('sellpage', compact('user', 'item', 'categories', 'conditions'), ['showMypageButton' => true, 'showToppageButton' => true]);
     }
 
-    public function storeSell(Request $request) {
+    public function storeSell(SellRequest $request) {
         $item = new Item();
         $item->user_id = Auth::id();
         $item->name = $request->input('name');
