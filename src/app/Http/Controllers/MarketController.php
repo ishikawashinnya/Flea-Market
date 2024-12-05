@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 
 class MarketController extends Controller
 {
+    //トップページ画面
     public function index(Request $request) {
         $keyword = $request->input('word');
         $user = Auth::user();
@@ -46,6 +47,7 @@ class MarketController extends Controller
         return view('toppage', compact('items', 'likes', 'soldItems'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
 
+    //お気に入り登録・削除機能
     public function storeLike(Request $request) {
         $user = Auth::user();
 
@@ -73,6 +75,7 @@ class MarketController extends Controller
         return back();
     }
 
+    //マイページ画面
     public function mypage(Request $request) {
         $keyword = $request->input('word');
         $user = Auth::user();
@@ -104,6 +107,7 @@ class MarketController extends Controller
         return view ('mypage', compact('user', 'items', 'soldItems', 'profile', 'profileImgUrl'), ['showSearchForm' => true, 'showToppageButton' => true, 'showSellpageButton' => true]);
     }
 
+    //プロフィール編集画面
     public function profile() {
         $user = Auth::user();
         $profile = $user->profile ?? new Profile();
@@ -111,6 +115,7 @@ class MarketController extends Controller
         return view ('profile', compact('user', 'profile'), ['showMypageButton' => true, 'showToppageButton' => true]);
     }
 
+    //プロフィール更新機能
     public function updateProfile(ProfileRequest $request) {
         $user = Auth::user();
         $user->name = $request->name;
@@ -143,6 +148,7 @@ class MarketController extends Controller
         return redirect()->route('profile')->with('success', 'プロフィールが更新されました');
     }
 
+    //配送先住所変更画面
     public function editAddress(Request $request, $item_id) {
         $user = Auth::user();
         $profile = $user->profile ?? new Profile();
@@ -152,6 +158,7 @@ class MarketController extends Controller
         return view ('edit_address', compact('user', 'profile', 'item_id', 'item'), ['showMypageButton' => true, 'showToppageButton' => true]);
     }
 
+    //配送先住所変更機能
     public function updateAddress(AddressRequest $request) {
         $user = Auth::user();
 
@@ -169,6 +176,7 @@ class MarketController extends Controller
         return redirect()->back()->with('success', '配送先が更新されました');
     }
 
+    //支払い方法選択画面
     public function editPaymentMethod(Request $request, $item_id) {
         $user = Auth::user();
         $profile = $user->profile;
@@ -184,6 +192,7 @@ class MarketController extends Controller
         return view ('edit_payment_method', compact('user', 'profile', 'item_id', 'item'), ['showMypageButton' => true, 'showToppageButton' => true]);
     }
 
+    //支払い方法変更機能
     public function updatePaymentMethod(Request $request) {
         $profile = Auth::user()->profile;
         $profile->payment_method = $request->payment_method;
@@ -192,6 +201,7 @@ class MarketController extends Controller
         return redirect()->back()->with('success', '支払い方法を変更しました');
     }
 
+    //商品詳細画面
     public function detail($item_id) {
         $item = Item::findOrFail($item_id);
         $user = $item->user;
@@ -206,6 +216,7 @@ class MarketController extends Controller
         return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_items', 'userLikes', 'profile', 'profileImgUrl', 'sold_item'), ['showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
 
+    //出品画面
     public function sell() {
         $user = Auth::user();
         $item = Item::all();
@@ -214,6 +225,7 @@ class MarketController extends Controller
         return view ('sellpage', compact('user', 'item', 'categories', 'conditions'), ['showMypageButton' => true, 'showToppageButton' => true]);
     }
 
+    //出品商品登録機能
     public function storeSell(SellRequest $request) {
         $item = new Item();
         $item->user_id = Auth::id();
@@ -245,6 +257,7 @@ class MarketController extends Controller
         return redirect()->back()->with('success', '出品が完了しました');
     }
 
+    //購入画面
     public function buy($item_id) {
         $user = Auth::user();
         $item = Item::findOrFail($item_id);
@@ -253,6 +266,7 @@ class MarketController extends Controller
         return view ('buypage', compact('user', 'item', 'profile'), ['showMypageButton' => true, 'showSellpageButton' => true]);
     }
 
+    //コメント画面
     public function comment($item_id) {
         $item = Item::findOrFail($item_id);
         $user = Auth::user();
@@ -265,6 +279,7 @@ class MarketController extends Controller
         return view('comment', compact('item', 'user', 'likes', 'comments',  'userLikes', 'profile', 'profileImgUrl'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
 
+    //コメント登録・削除機能
     public function storeComment(Request $request, $item_id) {
         $comment = new Comment();
         $comment->user_id = Auth::id();
@@ -288,6 +303,7 @@ class MarketController extends Controller
         return redirect()->back();
     }
 
+    //出品者の出品商品一覧画面
     public function sellerItem(Request $request, $user_id) {
         $user = Auth::user();
         $sellerUser = User::findOrFail($user_id);

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
+    //クレジットカード・コンビニ払い機能
     public function checkout(Request $request) {
         $item = Item::findOrFail($request->item_id);
         $profile = auth()->user()->profile;
@@ -80,6 +81,7 @@ class PaymentController extends Controller
         Stripe::setApiKey(config('services.stripe.secret'));
     }
 
+    //銀行振込機能
     public function banktransfer(Request $request)
     {
         $item = Item::findOrFail($request->item_id);
