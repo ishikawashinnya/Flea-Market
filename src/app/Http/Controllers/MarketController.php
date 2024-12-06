@@ -257,6 +257,50 @@ class MarketController extends Controller
         return redirect()->back()->with('success', '出品が完了しました');
     }
 
+    //出品情報更新画面
+    public function editSell($id) {
+        $item = Item::findOrFail($id);
+        $user = Auth::user();
+        $categories = Category::all();
+        $conditions = Condition::all();
+        $itemCategories = $item->categories->pluck('id')->toArray();
+
+        return view('edit_sell', compact('user', 'item', 'categories', 'conditions', 'itemCategories'), ['showMypageButton' => true, 'showToppageButton' => true]);
+    }
+
+    //出品情報更新機能
+    public function updateSell(SellRequest $request, $id) {
+        $item = Item::findOrFail($id);
+        $item->user_id = Auth::id();
+        $item->name = $request->input('name');
+        $item->price = $request->input('price');
+        $item->description = $request->input('description');
+        $item->condition_id = $request->input('condition_id');
+
+        //ローカル時
+        if ($request->hasFile('img_url')) {
+            $img_url = $request->file('img_url')->store('item_images', 'public');
+            $item->img_url = 'storage/' . $img_url;
+        }
+
+        // AWSデプロイ時
+        // if ($request->hasFile('img_url')) {
+            // $img_url = $request->file('img_url')->store('item_images', 's3');
+            // $item->img_url = Storage::disk('s3')->url($img_url);
+        // }
+
+        $item->save();
+
+        $category_ids = $request->input('category_id');
+        if ($category_ids) {
+            $item->categories()->sync($category_ids);
+        } else {
+            $item->categories()->sync([]);
+        }
+
+        return redirect()->back()->with('success', '出品情報が変更されました');
+    }
+
     //購入画面
     public function buy($item_id) {
         $user = Auth::user();

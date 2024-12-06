@@ -32,12 +32,11 @@ Route::get('selleritem/{user_id}', [MarketController::class, 'sellerItem'])->nam
 //AuthenticatedUserRoutes
 Route::middleware(['auth'])->group(function () {
     Route::get('/mypage', [MarketController::class, 'mypage'])->name('mypage');
+    Route::get('/mypage/profile', [MarketController::class, 'profile'])->name('profile');
+    Route::post('/profile/update', [MarketController::class, 'updateProfile'])->name('update.profile');
 
     Route::post('/like', [MarketController::class, 'storeLike'])->name('store.like');
     Route::delete('/like/{id}', [MarketController::class, 'destroyLike'])->name('destroy.like');
-
-    Route::get('/mypage/profile', [MarketController::class, 'profile'])->name('profile');
-    Route::post('/profile/update', [MarketController::class, 'updateProfile'])->name('update.profile');
 
     Route::get('/purchase/address/{item_id}', [MarketController::class, 'editAddress'])->name('edit.address');
     Route::post('address/update', [MarketController::class, 'updateAddress'])->name('update.address');
@@ -46,17 +45,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/sell', [MarketController::class, 'sell'])->name('sell');
     Route::post('/sell/store', [MarketController::class, 'storeSell'])->name('store.sell');
-
-    Route::get('/purchase/{item_id}', [MarketController::class, 'buy'])->name('buy');
+    Route::get('/sell/{id}/edit', [MarketController::class, 'editSell'])->name('edit.sell');
+    Route::post('/sell/{id}', [MarketController::class, 'updateSell'])->name('update.sell');
 
     Route::get('/comment/{item_id}', [MarketController::class, 'comment'])->name('comment');
     Route::post('/comment/store/{item_id}', [MarketController::class, 'storeComment'])->name('store.comment');
     Route::delete('/comment/{comment_id}',[MarketController::class, 'destroyComment'])->name('destroy.comment');
 
+    Route::get('/purchase/{item_id}', [MarketController::class, 'buy'])->name('buy');
     Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
     Route::get('/purchase/success/{item_id}', [PaymentController::class, 'success'])->name('success');
     Route::get('/purchase/cancel/{item_id}', [PaymentController::class, 'cancel'])->name('cancel');
-
     Route::post('/purchase/banktransfer', [PaymentController::class, 'banktransfer'])->name('banktransfer');
 });
 

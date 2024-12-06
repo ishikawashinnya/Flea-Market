@@ -7,7 +7,7 @@
 @section('content')
 <div class="sell__content">
     <div class="content__header">
-        <h2>商品の出品</h2>
+        <h2>出品情報の変更</h2>
         <div class="alert">
             @if(session('success'))
                 <div class="alert__success">
@@ -18,14 +18,14 @@
     </div>
 
     <div class="content__main">
-        <form action="{{ route('store.sell') }}" method="post" class="sell__form" enctype="multipart/form-data">
+        <form action="{{ route('update.sell', ['id' => $item->id]) }}" method="post" class="sell__form" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="user_id" value="{{ $user->id }}">
 
             <div class="img__field">
                 <label for="item__img" class="form__label">商品画像</label>
                 <div class="img__preview">
-                    <img id="item__img" src="" alt="">
+                    <img id="item__img" src="{{ asset($item->img_url) }}" alt="">
                 </div>
                 <div class="img__select">
                     <label for="img" class="img__select-label">画像を選択する</label>
@@ -46,7 +46,7 @@
                 <select name="category_id" id="category" class="form__select">
                     <option value="" disabled selected></option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                        <option value="{{ $category->id }}" @if(in_array($category->id, $itemCategories)) selected @endif>{{ $category->name }}</option>
                     @endforeach
                 </select>
                 <div class="form__error">
@@ -60,7 +60,7 @@
                 <select name="condition_id" id="condition" class="form__select">
                     <option value="" disabled selected></option>
                     @foreach($conditions as $condition)
-                        <option value="{{ $condition->id }}" {{ old('condition_id') == $condition->id ? 'selected' : '' }}>{{ $condition->condition }}</option>
+                        <option value="{{ $condition->id }}" {{ $item->condition_id == $condition->id ? 'selected' : '' }}>{{ $condition->condition }}</option>
                     @endforeach
                 </select>
                 <div class="form__error">
@@ -75,7 +75,7 @@
             </div>
             <div class="form__item">
                 <label for="name" class="form__label">商品名</label>
-                <input type="text" name="name" id="name" value="{{ old('name') }}" class="form__input">
+                <input type="text" name="name" id="name" value="{{ old('name', $item->name) }}" class="form__input">
                 <div class="form__error">
                     @error('name')
                         {{ $message }}
@@ -84,7 +84,7 @@
             </div>
             <div class="form__item">
                 <label for="description" class="form__label">商品の説明</label>
-                <textarea name="description" id="description" cols="32" rows="8" maxlength="150" class="description__text">{{ old('description') }}</textarea>
+                <textarea name="description" id="description" cols="32" rows="8" maxlength="150" class="description__text">{{ old('description', $item->description) }}</textarea>
                
                 <div class="form__error">
                     @error('description')
@@ -100,7 +100,7 @@
                 <label for="price" class="form__label">販売価格</label>
                 <div class="price__input">
                     <span class="price__prefix">￥</span>
-                    <input type="text" name="price" id="price" value="{{ old('price') }}" class="form__price-input">
+                    <input type="text" name="price" id="price" value="{{ old('price', $item->price) }}" class="form__price-input">
                 </div>
                 <div class="form__error">
                     @error('price')
@@ -110,7 +110,7 @@
             </div>
 
             <div class="form__button">
-                <button class="form__button-submit" type="submit">出品する</button>
+                <button class="form__button-submit" type="submit">変更する</button>
             </div>
         </form>
     </div>

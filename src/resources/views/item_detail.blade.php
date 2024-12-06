@@ -52,7 +52,11 @@
         </div>
         <div class="buy__link">
             @if (is_null($sold_item))
-                <a href="{{ route('buy', ['item_id' => $item->id]) }}" class="buy__link-btn">購入する</a>
+                @if (Auth::check() && Auth::id() === $item->user_id)
+                    <a href="{{ route('edit.sell', ['id' => $item->id]) }}" class="buy__link-btn">出品情報を変更する</a>
+                @else
+                    <a href="{{ route('buy', ['item_id' => $item->id]) }}" class="buy__link-btn">購入する</a>
+                @endif
             @else
                 <p class="buy__link-message">この商品は売り切れました</p>
             @endif
