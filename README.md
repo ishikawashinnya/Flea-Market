@@ -31,7 +31,7 @@ Laravel Framework 8.x、PHP7.4.9、MySQL8.0.26、JavaScript、stripe
 
   1.クローン作成
   
-    git@github.com:ishikawashinnya/Flea-Market.git
+    git clone git@github.com:ishikawashinnya/Flea-Market.git
   
   2.DockerDesktopアプリを立ち上げる
 
