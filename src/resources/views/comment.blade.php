@@ -44,7 +44,7 @@
                     </form>
                 @endif
             <div class="icon__img">
-                <img src="{{ asset('icon/balloon.svg') }}" alt="吹き出し">
+                <img src="{{ asset('icon/balloon.svg') }}" alt="コメント">
                 <span class="total__number">{{ $comments->count() }}</span>
             </div>
         </div>
@@ -103,7 +103,7 @@
             <textarea name="comment" id="comment" rows="6" maxlength="150" class="comment__text">{{ old('comment') }}</textarea>
             </div>
             <div class="form__button">
-                <button class="form__button-submit" type="submit">コメントを送信する</button>
+                <button class="form__button-submit" type="submit" onclick="return confirm('コメントを送信しますか？')">コメントを送信する</button>
             </div>
         </form>
     </div>

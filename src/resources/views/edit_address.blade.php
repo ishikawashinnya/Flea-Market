@@ -69,7 +69,7 @@
             </div>
             
             <div class="form__button">
-                <button class="form__button-submit" type="submit">更新する</button>
+                <button class="form__button-submit" type="submit" onclick="return confirm('配送先を更新しますか？')">更新する</button>
             </div>
         </form>
         <div class="back__link">

@@ -87,7 +87,7 @@
                 @csrf
                 <input type="hidden" name="item_id" value="{{ $item->id }}">
                 <div class="form__button">
-                    <button class="form__button-submit" type="submit">購入する</button>
+                    <button class="form__button-submit" type="submit" onclick="return confirm('購入しますか？')">購入する</button>
                 </div>
             </form>
         @else
@@ -95,7 +95,7 @@
                 @csrf
                 <input type="hidden" name="item_id" value="{{ $item->id }}">
                 <div class="form__button">
-                    <button class="form__button-submit" type="submit">購入する</button>
+                    <button class="form__button-submit" type="submit" onclick="return confirm('購入しますか？')">購入する</button>
                 </div>
             </form>
         @endif

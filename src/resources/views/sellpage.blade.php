@@ -110,7 +110,7 @@
             </div>
 
             <div class="form__button">
-                <button class="form__button-submit" type="submit">出品する</button>
+                <button class="form__button-submit" type="submit" onclick="return confirm('出品しますか？')">出品する</button>
             </div>
         </form>
     </div>
