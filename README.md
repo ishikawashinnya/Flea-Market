@@ -49,7 +49,9 @@ Laravel Framework 8.x、PHP7.4.9、MySQL8.0.26、JavaScript、stripe
   
     composer install
   
-  3.「.env.example」ファイルを 「.env」ファイルに命名を変更。または、新しく.envファイルを作成
+  3.「.env.example」ファイルをコピーして「.env」ファイルを作成  
+
+    cp .env.example .env
   
   4..envに以下の環境変数を追加
   
