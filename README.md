@@ -25,7 +25,7 @@ Laravel Framework 8.x、PHP7.4.9、MySQL8.0.26、JavaScript、stripe
 ![テーブル設計](https://github.com/user-attachments/assets/cbaf9c99-7def-432f-96ce-7ec789073a52)
 
 ## ER図
-![table_ER drawio](https://github.com/user-attachments/assets/004a8fa1-30ca-40e0-8b2a-1b0319a97125)
+![table_ER drawio](https://github.com/user-attachments/assets/ef14b545-7226-411b-814e-69cf240b0769)
 
 ## 環境構築
 ### Dockerビルド
