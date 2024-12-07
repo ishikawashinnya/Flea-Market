@@ -282,7 +282,7 @@ class MarketController extends Controller
             $img_url = $request->file('img_url')->store('item_images', 'public');
             $item->img_url = 'storage/' . $img_url;
         }
-
+        
         // AWSデプロイ時
         // if ($request->hasFile('img_url')) {
             // $img_url = $request->file('img_url')->store('item_images', 's3');

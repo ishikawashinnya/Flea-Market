@@ -45,7 +45,7 @@
             </div>
             
             <div class="form__button">
-                <button class="form__button-submit" type="submit">更新する</button>
+                <button class="form__button-submit" type="submit" onclick="return confirm('支払い方法を変更しますか？')">更新する</button>
             </div>
         </form>
         <div class="back__link">

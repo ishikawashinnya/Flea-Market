@@ -25,7 +25,7 @@
             <div class="img__field">
                 <label for="item__img" class="form__label">商品画像</label>
                 <div class="img__preview">
-                    <img id="item__img" src="{{ asset($item->img_url) }}" alt="">
+                    <img id="item__img" src="{{ asset($item->img_url) }}" alt="商品画像">
                 </div>
                 <div class="img__select">
                     <label for="img" class="img__select-label">画像を選択する</label>
@@ -110,7 +110,7 @@
             </div>
 
             <div class="form__button">
-                <button class="form__button-submit" type="submit">変更する</button>
+                <button class="form__button-submit" type="submit" onclick="return confirm('商品情報を変更しますか？')">変更する</button>
             </div>
         </form>
     </div>

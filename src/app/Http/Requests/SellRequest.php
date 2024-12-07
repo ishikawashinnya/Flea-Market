@@ -23,11 +23,14 @@ class SellRequest extends FormRequest
      */
     public function rules()
     {
+        $item_id = $this->route('id');
+        $item = $item_id ? \App\Models\Item::find($item_id) : null;
+
         return [
             'name' => ['required'],
             'price' => ['required', 'regex:/^[1-9][0-9]*$/'],
             'description' => ['required'],
-            'img_url' => ['required', 'file', 'mimes:jpeg,png',],
+            'img_url' => [$item && $item->img_url ? 'nullable' : 'required', 'file', 'mimes:jpeg,png',],
             'condition_id' => ['required'],
         ];
     }
