@@ -79,7 +79,7 @@ Laravel Framework 8.x、PHP7.4.9、MySQL8.0.26、JavaScript、stripe
 ## ダミーデータ説明
 ### ユーザー一覧
 1.管理者　email : admin@example.com　　password : testadmin  
-2.テストユーザー　email : test@example.com　　password : testuser  
+2.テストユーザー　email : testuser@example.com　　password : testuser  
   
 ※テスト出品データ1と2はテストユーザーの出品として作成されています。  
 
