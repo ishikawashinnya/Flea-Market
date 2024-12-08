@@ -37,4 +37,4 @@ workflows:
                 # master ブランチに push された場合のみ deploy ジョブを実行する
                 filters:
                     branches:
-                        only: master
+                        only: main
