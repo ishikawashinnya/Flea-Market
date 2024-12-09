@@ -10,8 +10,6 @@ jobs:
         environment:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: demo_test
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
     steps:
       - checkout:
           path: ~/project
