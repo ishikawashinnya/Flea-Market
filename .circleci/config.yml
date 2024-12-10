@@ -22,10 +22,20 @@ jobs:
               sleep 2
             done
       - run:
+          name: MySQL Connection Test
+          command: |
+            mysql -h mysql -u root -proot -e "SHOW DATABASES;"
+      - run:
           name: Install Composer dependencies
           command: |
             cd src  # srcディレクトリに移動
             composer install  # 依存パッケージをインストール
+      - run:
+          name: Clear Laravel Cache
+          command: |
+            cd src
+            php artisan config:clear
+            php artisan cache:clear
       - run:
           name: Run tests
           command: |
