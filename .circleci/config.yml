@@ -17,9 +17,9 @@ jobs:
     steps:
       - checkout
 
-      # Docker Daemonのセットアップ
+      # Docker Daemonのセットアップ (version指定を削除)
       - setup_remote_docker:
-          docker_layer_caching: true  # 可能であればDockerレイヤーキャッシュを有効化
+          docker_layer_caching: true  # キャッシュを有効にする
 
       - run:
           name: Install Docker Compose v1
@@ -32,6 +32,7 @@ jobs:
           command: |
             sudo curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz | sudo tar -C /usr/local/bin -xzv
 
+      # Docker Composeによるサービスの起動
       - run:
           name: Start services with Docker Compose
           command: |
@@ -56,10 +57,11 @@ jobs:
             " > docker-compose.yml
             docker-compose up -d
 
+      # `test_db`が起動するのを待機
       - run:
           name: Wait for MySQL test_db to be ready
           command: |
-            dockerize -wait tcp://test_db:3306 -timeout 1m
+            dockerize -wait tcp://test_db:3306 -timeout 2m
 
       - run:
           name: Install dependencies with Composer
