@@ -4,6 +4,7 @@ jobs:
   build:
     docker:
       - image: cimg/php:8.1-node
+      - image: nginx:1.21.1
       - image: mysql:8.0
         environment:
           MYSQL_ROOT_PASSWORD: root
@@ -17,7 +18,7 @@ jobs:
       - checkout
 
       - run:
-          name: Install Docker Compose v2
+          name: Install Docker Compose v1
           command: |
             sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
             sudo chmod +x /usr/local/bin/docker-compose
