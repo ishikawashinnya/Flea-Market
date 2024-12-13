@@ -69,6 +69,7 @@ jobs:
 
       - run:
           name: Install dependencies with Composer
+          working_directory: src
           command: composer install
 
       - run:
