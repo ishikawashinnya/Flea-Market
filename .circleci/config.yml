@@ -74,6 +74,7 @@ jobs:
 
       - run:
           name: Run Laravel migrations for testing
+          working_directory: src
           command: php artisan migrate --env=testing --force
 
       - run:
