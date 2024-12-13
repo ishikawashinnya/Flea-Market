@@ -7,10 +7,8 @@ jobs:
       - image: nginx:1.21.1
       - image: mysql:8.0
         environment:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: test_db
-          MYSQL_USER: test_user
-          MYSQL_PASSWORD: test_pass
+          MYSQL_ROOT_HOST: '%'
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
 
     working_directory: ~/laravel-project
 
