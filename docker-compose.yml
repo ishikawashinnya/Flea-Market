@@ -32,10 +32,11 @@ services:
     test_db:
         image: mysql:8.0.26
         environment:
-            MYSQL_ROOT_PASSWORD: root
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'true'   # 空パスワードを許可
+            MYSQL_ROOT_HOST: '%'                 # どこからでも接続可能にする
             MYSQL_DATABASE: test_db
             MYSQL_USER: test_user
-            MYSQL_PASSWORD: test_pass
+            MYSQL_PASSWORD: ''            
         command:
             mysqld --default-authentication-plugin=mysql_native_password
         volumes:
