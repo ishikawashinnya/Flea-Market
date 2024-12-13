@@ -1,0 +1,88 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/php:8.1-node
+      - image: nginx:1.21.1
+      - image: mysql:8.0
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test_db
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_pass
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'true'   # 空パスワードを許可
+          MYSQL_ROOT_HOST: '%'                # 任意のホストからの接続を許可
+
+    working_directory: ~/src   # 正しいディレクトリに修正
+
+    steps:
+      - checkout
+
+      # Docker Daemonのセットアップ (version指定を削除)
+      - setup_remote_docker:
+          docker_layer_caching: true  # キャッシュを有効にする
+
+      - run:
+          name: Install Docker Compose v1
+          command: |
+            sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+
+      - run:
+          name: Install dockerize
+          command: |
+            sudo curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz | sudo tar -C /usr/local/bin -xzv
+
+      # Docker Composeによるサービスの起動
+      - run:
+          name: Start services with Docker Compose
+          command: |
+            echo "version: '3'
+            services:
+              test_db:
+                image: mysql:8.0
+                environment:
+                  MYSQL_ROOT_PASSWORD: root
+                  MYSQL_DATABASE: test_db
+                  MYSQL_USER: test_user
+                  MYSQL_PASSWORD: test_pass
+                  MYSQL_ALLOW_EMPTY_PASSWORD: 'true'  # 空パスワードを許可
+                  MYSQL_ROOT_HOST: '%'                # 任意のホストからの接続を許可
+              php:
+                image: cimg/php:8.1-node
+                working_dir: /var/www
+                volumes:
+                  - .:/var/www
+              nginx:
+                image: nginx:1.21.1
+                ports:
+                  - 80:80
+            " > docker-compose.yml
+            docker-compose up -d
+
+      # `test_db`が起動するのを待機
+      - run:
+          name: Wait for MySQL test_db to be ready
+          command: |
+            dockerize -wait tcp://127.0.0.1:3306 -timeout 2m  # MySQLに接続するホストを127.0.0.1に変更
+
+      - run:
+          name: Install dependencies with Composer
+          working_directory: src
+          command: composer install
+
+      - run:
+          name: Run Laravel migrations for testing
+          working_directory: src
+          command: php artisan migrate --env=testing --force
+
+      - run:
+          name: Run PHPUnit tests
+          working_directory: src
+          command: php artisan test
+
+workflows:
+  build_and_test:
+    jobs:
+      - build
