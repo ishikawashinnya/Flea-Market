@@ -14,7 +14,7 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: 'true'   # 空パスワードを許可
           MYSQL_ROOT_HOST: '%'                # 任意のホストからの接続を許可
 
-    working_directory: ~/mockcase3/src
+    working_directory: ~/src   # 正しいディレクトリに修正
 
     steps:
       - checkout
