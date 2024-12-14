@@ -82,7 +82,33 @@ jobs:
           working_directory: src
           command: php artisan test
 
+  deploy:
+    machine:
+      image: circleci/classic:edge
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - SHA256:EYbrPbfabr4DUc0IIUwtDz6fI1BIBrrWcq0tk4f7zmY
+      - run:
+          name: Deploy to EC2
+          command: |
+            ssh ${USER_NAME}@${HOST_NAME} << 'EOF'
+              cd ~/var/www/Flea-Market/src/
+              git pull origin main
+              composer install --no-interaction --prefer-dist
+              php artisan migrate --force
+              php artisan cache:clear
+              sudo service php-fpm restart
+              sudo service nginx restart
+            EOF
+
 workflows:
   build_and_test:
     jobs:
       - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
