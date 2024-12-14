@@ -88,10 +88,10 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "SHA256:EYbrPbfabr4DUc0IIUwtDz6fI1BIBrrWcq0tk4f7zmY"
-            
+
       - run:
-        name: Check SSH Key Location
-        command: ls -al ~/.ssh
+          name: Check SSH Key Location
+          command: ls -al ~/.ssh
 
       - run:
           name: Deploy to EC2
