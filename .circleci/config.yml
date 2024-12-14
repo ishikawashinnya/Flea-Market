@@ -96,8 +96,6 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            export USER_NAME=ec2-user  # 正しいユーザー名
-            export HOST_NAME=ec2-13-231-223-163.ap-northeast-1.compute.amazonaws.com  # EC2インスタンスのパブリックIPまたはホスト名
             ssh -i ~/.ssh/id_rsa_71f0131a161448e9f7d027d681140f31 ${USER_NAME}@${HOST_NAME} "cd /var/www/Flea-Market/src/ && \
               git pull origin main && \
               composer install --no-interaction --prefer-dist && \
