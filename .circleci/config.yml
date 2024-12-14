@@ -89,6 +89,11 @@ jobs:
           fingerprints:
             - "SHA256:EYbrPbfabr4DUc0IIUwtDz6fI1BIBrrWcq0tk4f7zmY"
       - run:
+        name: Set up user and host variables
+        command: |
+          export USER_NAME=ec2-user  # 正しいユーザー名
+          export HOST_NAME=ec2-13-231-223-163.ap-northeast-1.compute.amazonaws.com  # EC2インスタンスのパブリックIPまたはホスト名
+      - run:
           name: Deploy to EC2
           command: |
             ssh ${USER_NAME}@${HOST_NAME} "cd ~/var/www/Flea-Market/src/ && git pull origin main && composer install --no-interaction --prefer-dist && php artisan migrate --force && php artisan cache:clear && sudo service php-fpm restart && sudo service nginx restart"
