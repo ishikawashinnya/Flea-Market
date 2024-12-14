@@ -129,6 +129,7 @@ class MarketController extends Controller
         $profile->building = $request->building;
 
         //ローカル時
+        /*
         if ($request->hasFile('img_url')) {
             if ($profile->img_url) {
                 Storage::disk('public')->delete($profile->img_url);
@@ -136,12 +137,13 @@ class MarketController extends Controller
             $img_url = $request->file('img_url')->store('profile_imgs', 'public');
             $profile->img_url = 'storage/' . $img_url;
         }
+        */
 
         //AWSデプロイ時
-        // if ($request->hasFile('img_url')) {
-            // $img_url = $request->file('img_url')->store('profile_imgs', 's3');
-            // $profile->img_url = Storage::disk('s3')->url($img_url);
-        // } 
+        if ($request->hasFile('img_url')) {
+            $img_url = $request->file('img_url')->store('profile_imgs', 's3');
+            $profile->img_url = Storage::disk('s3')->url($img_url);
+        } 
 
         $profile->save();
 
@@ -235,16 +237,18 @@ class MarketController extends Controller
         $item->condition_id = $request->input('condition_id');
 
         //ローカル時
+        /*
         if ($request->hasFile('img_url')) {
             $img_url = $request->file('img_url')->store('item_images', 'public');
             $item->img_url = 'storage/' . $img_url;
         }
+        */
 
-        // AWSデプロイ時
-        // if ($request->hasFile('img_url')) {
-            // $img_url = $request->file('img_url')->store('item_images', 's3');
-            // $item->img_url = Storage::disk('s3')->url($img_url);
-        // }
+        //AWSデプロイ時
+        if ($request->hasFile('img_url')) {
+            $img_url = $request->file('img_url')->store('item_images', 's3');
+            $item->img_url = Storage::disk('s3')->url($img_url);
+        }
 
         $item->save();
 
@@ -278,16 +282,18 @@ class MarketController extends Controller
         $item->condition_id = $request->input('condition_id');
 
         //ローカル時
+        /*
         if ($request->hasFile('img_url')) {
             $img_url = $request->file('img_url')->store('item_images', 'public');
             $item->img_url = 'storage/' . $img_url;
         }
+        */
         
-        // AWSデプロイ時
-        // if ($request->hasFile('img_url')) {
-            // $img_url = $request->file('img_url')->store('item_images', 's3');
-            // $item->img_url = Storage::disk('s3')->url($img_url);
-        // }
+        //AWSデプロイ時
+        if ($request->hasFile('img_url')) {
+            $img_url = $request->file('img_url')->store('item_images', 's3');
+            $item->img_url = Storage::disk('s3')->url($img_url);
+        }
 
         $item->save();
 
