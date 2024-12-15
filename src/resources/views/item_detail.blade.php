@@ -76,9 +76,14 @@
                     <p>カテゴリー</p>
                 </div>
                 <div class="groupe__item">
-                    @foreach($category_items as $category_item)
-                        <p class="category__name">{{ $category_item->name }}</p>
-                    @endforeach
+                    <p class="category__name">
+                        {{ optional($category_item)->name }}
+                    </p>
+                    @if($item->subcategories->isNotEmpty())
+                        <p class="subcategory__name">
+                            {{ $item->subcategories->first()->name }}
+                        </p>
+                    @endif
                 </div>
             </div>
             <div class="information__groupe">

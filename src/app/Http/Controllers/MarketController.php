@@ -11,6 +11,7 @@ use App\Models\Category_item;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Condition;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\AddressRequest;
@@ -129,21 +130,19 @@ class MarketController extends Controller
         $profile->building = $request->building;
 
         //ローカル時
-        /*
-        if ($request->hasFile('img_url')) {
+        /*if ($request->hasFile('img_url')) {
             if ($profile->img_url) {
                 Storage::disk('public')->delete($profile->img_url);
             }
             $img_url = $request->file('img_url')->store('profile_imgs', 'public');
             $profile->img_url = 'storage/' . $img_url;
-        }
-        */
+        }*/
 
         //AWSデプロイ時
         if ($request->hasFile('img_url')) {
             $img_url = $request->file('img_url')->store('profile_imgs', 's3');
             $profile->img_url = Storage::disk('s3')->url($img_url);
-        } 
+        }
 
         $profile->save();
 
@@ -209,13 +208,14 @@ class MarketController extends Controller
         $user = $item->user;
         $likes = Like::where('item_id', $item->id)->count();
         $comments = Comment::where('item_id', $item->id)->get();
-        $category_items = $item->categories;
+        $category_item = $item->categories->first();
+        $subcategory = $item->subcategories->first();
         $userLikes = $user ? Like::where('user_id', $user->id)->pluck('item_id')->toArray() : [];
         $profile = $user->profile ?? new Profile();
         $profileImgUrl = $profile && $profile->img_url ? asset($profile->img_url) : asset('icon/face.svg');
         $sold_item = Sold_item::where('item_id', $item->id)->first();
 
-        return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_items', 'userLikes', 'profile', 'profileImgUrl', 'sold_item'), ['showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
+        return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_item', 'userLikes', 'profile', 'profileImgUrl', 'sold_item', 'subcategory'), ['showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
 
     //出品画面
@@ -223,8 +223,9 @@ class MarketController extends Controller
         $user = Auth::user();
         $item = Item::all();
         $categories = Category::all();
+        $subcategories = Subcategory::all();
         $conditions = Condition::all();
-        return view ('sellpage', compact('user', 'item', 'categories', 'conditions'), ['showMypageButton' => true, 'showToppageButton' => true]);
+        return view ('sellpage', compact('user', 'item', 'categories', 'subcategories', 'conditions'), ['showMypageButton' => true, 'showToppageButton' => true]);
     }
 
     //出品商品登録機能
@@ -237,12 +238,10 @@ class MarketController extends Controller
         $item->condition_id = $request->input('condition_id');
 
         //ローカル時
-        /*
-        if ($request->hasFile('img_url')) {
+        /*if ($request->hasFile('img_url')) {
             $img_url = $request->file('img_url')->store('item_images', 'public');
             $item->img_url = 'storage/' . $img_url;
-        }
-        */
+        }*/
 
         //AWSデプロイ時
         if ($request->hasFile('img_url')) {
@@ -255,7 +254,7 @@ class MarketController extends Controller
         $category_item = new Category_item();
         $category_item->item_id = $item->id;
         $category_item->category_id = $request->input('category_id');
-
+        $category_item->subcategory_id = $request->input('subcategory_id');
         $category_item->save();
 
         return redirect()->back()->with('success', '出品が完了しました');
@@ -268,8 +267,11 @@ class MarketController extends Controller
         $categories = Category::all();
         $conditions = Condition::all();
         $itemCategories = $item->categories->pluck('id')->toArray();
+        $categoryItem = Category_item::where('item_id', $item->id)->first();
+        $selectedSubcategoryId = $categoryItem ? $categoryItem->subcategory_id : null;
+        $subcategories = $selectedSubcategoryId ? Subcategory::where('category_id', $itemCategories[0])->get() : collect();
 
-        return view('edit_sell', compact('user', 'item', 'categories', 'conditions', 'itemCategories'), ['showMypageButton' => true, 'showToppageButton' => true]);
+        return view('edit_sell', compact('user', 'item', 'categories', 'conditions', 'itemCategories', 'subcategories', 'selectedSubcategoryId'), ['showMypageButton' => true, 'showToppageButton' => true]);
     }
 
     //出品情報更新機能
@@ -282,12 +284,10 @@ class MarketController extends Controller
         $item->condition_id = $request->input('condition_id');
 
         //ローカル時
-        /*
-        if ($request->hasFile('img_url')) {
+        /*if ($request->hasFile('img_url')) {
             $img_url = $request->file('img_url')->store('item_images', 'public');
             $item->img_url = 'storage/' . $img_url;
-        }
-        */
+        }*/
         
         //AWSデプロイ時
         if ($request->hasFile('img_url')) {
@@ -304,7 +304,31 @@ class MarketController extends Controller
             $item->categories()->sync([]);
         }
 
+        $subcategory_id = $request->input('suncategory_id');
+        $categoryItem = Category_item::where('item_id', $item->id)->first();
+
+        if($categoryItem) {
+            $categoryItem->category_id = $request->input('category_id');
+            $categoryItem->subcategory_id = $subcategory_id !== null ? $subcategory_id : null;
+            $categoryItem->save();
+        } else {
+            $categoryItem = new Category_item();
+            $categoryItem->item_id = $item->id;
+            $categoryItem->category_id = $request->input('category_id');
+            $categoryItem->subcategory_id = $subcategory_id !== null ? $subcategory_id : null;
+            $categoryItem->save();
+        }
+
         return redirect()->back()->with('success', '出品情報が変更されました');
+    }
+
+    public function getSubcategories(Request $request) {
+        $categoryId = $request->query('category_id');
+        $subcategories = Subcategory::where('category_id', $request->category_id)->get();
+
+        return response()->json([
+            'subcategories' => $subcategories
+        ]);
     }
 
     //購入画面

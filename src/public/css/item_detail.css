@@ -154,6 +154,14 @@
     border-radius: 10px;
 }
 
+.subcategory__name {
+    margin-left: 5%;
+    background-color: #D9D9D9;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 10px;
+}
+
 .condition__name {
     margin-left: 7%;
     padding-left: 15px;

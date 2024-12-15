@@ -44,7 +44,7 @@
             <div class="form__item">
                 <label for="category" class="form__label">カテゴリー</label>
                 <select name="category_id" id="category" class="form__select">
-                    <option value="" disabled selected></option>
+                    <option value="" disabled selected>カテゴリーを選択</option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                     @endforeach
@@ -55,10 +55,19 @@
                     @enderror
                 </div>
             </div>
+            <div class="form__item" id="subcategory__container" style="display: none;>
+                <label for="subcategory" class="form__label">詳細カテゴリー</label>
+                <select name="subcategory_id" id="subcategory" class="form__select" ">
+                    <option value="" disabled selected>詳細カテゴリーを選択</option>
+                    @foreach($subcategories as $subcategory)
+                        <option value="{{ $subcategory->id }}" {{ old('subcategory_id') == $subcategory->id ? 'selected' : '' }}>{{ $subcategory->name }}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="form__item">
                 <label for="condition" class="form__label">商品の状態</label>
                 <select name="condition_id" id="condition" class="form__select">
-                    <option value="" disabled selected></option>
+                    <option value="" disabled selected>商品の状態を選択</option>
                     @foreach($conditions as $condition)
                         <option value="{{ $condition->id }}" {{ old('condition_id') == $condition->id ? 'selected' : '' }}>{{ $condition->condition }}</option>
                     @endforeach

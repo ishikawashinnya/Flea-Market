@@ -35,14 +35,18 @@ class Item extends Model
     }
 
     public function user() {
-        return $this->BelongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function condition() {
-        return $this->BelongsTo(Condition::class);
+        return $this->belongsTo(Condition::class);
     }
 
     public function categories() {
         return $this->belongsToMany(Category::class, 'category_items');
+    }
+
+    public function subcategories() {
+        return $this->belongsToMany(Subcategory::class, 'category_items');
     }
 }
