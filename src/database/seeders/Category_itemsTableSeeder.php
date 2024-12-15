@@ -18,13 +18,15 @@ class Category_itemsTableSeeder extends Seeder
     {
         $param = [
             'item_id' => '1',
-            'category_id' => '1'
+            'category_id' => '1',
+            'subcategory_id' => '1'
         ];
         DB::table('category_items')->insert($param);
 
         $param = [
             'item_id' => '2',
-            'category_id' => '2'
+            'category_id' => '2',
+            'subcategory_id' => '4'
         ];
         DB::table('category_items')->insert($param);
 

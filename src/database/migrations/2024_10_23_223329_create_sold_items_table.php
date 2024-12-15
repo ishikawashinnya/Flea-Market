@@ -15,8 +15,8 @@ class CreateSoldItemsTable extends Migration
     {
         Schema::create('sold_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignID('item_id')->constrained()->cascadeOnDelete();
-            $table->foreignID('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('item_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

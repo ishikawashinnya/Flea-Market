@@ -5,25 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category_item extends Model
+class Subcategory extends Model
 {
     use HasFactory;
-
+    
     protected $fillable = [
-        'item_id',
-        'category_id',
-        'subcategory_id',
+        'name',
+        'category_id'
     ];
-
-    public function item() {
-        return $this->belongsTo(Item::class);
-    }
 
     public function category() {
         return $this->belongsTo(Category::class);
     }
 
-    public function subcategory() {
-        return $this->belongsTo(Subcategory::class);
+    public function items() {
+        return $this->belongsToMany(Item::class, 'category_items');
     }
 }

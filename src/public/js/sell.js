@@ -15,3 +15,40 @@ document.getElementById('img').addEventListener('change', function (event) {
         label.classList.remove('hidden');
     }
 });
+
+document.getElementById('category').addEventListener('change', function (event) {
+    const categoryId = event.target.value;
+    const subcategoryContainer = document.getElementById('subcategory__container');  // 詳細カテゴリーのセレクトボックスが含まれる親要素
+    const subcategorySelect = document.getElementById('subcategory');  // サブカテゴリーのセレクトボックス
+
+    // カテゴリーが選択された場合に詳細カテゴリーセレクトボックスを表示
+    if (categoryId) {
+        subcategoryContainer.style.display = 'block';  // 詳細カテゴリーを表示
+
+        // サブカテゴリーのリセット
+        subcategorySelect.innerHTML = '<option value="" disabled selected>詳細カテゴリーを選択</option>';
+
+        // サーバーからサブカテゴリーを取得する処理
+        fetch(`/get-subcategories?category_id=${categoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.subcategories && data.subcategories.length > 0) {
+                    data.subcategories.forEach(subcategory => {
+                        const option = document.createElement('option');
+                        option.value = subcategory.id;  // サブカテゴリーID
+                        option.textContent = subcategory.name;  // サブカテゴリー名
+                        subcategorySelect.appendChild(option);
+                    });
+                } else {
+                    // サブカテゴリーがなければ選択肢を表示しない
+                    subcategoryContainer.style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error('サブカテゴリーの取得に失敗しました', error);
+            });
+    } else {
+        // カテゴリーが選択されていない場合は詳細カテゴリーセレクトボックスを非表示にする
+        subcategoryContainer.style.display = 'none';
+    }
+});

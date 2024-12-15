@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/sell/store', [MarketController::class, 'storeSell'])->name('store.sell');
     Route::get('/sell/{id}/edit', [MarketController::class, 'editSell'])->name('edit.sell');
     Route::post('/sell/{id}', [MarketController::class, 'updateSell'])->name('update.sell');
+    Route::get('/get-subcategories', [MarketController::class, 'getSubcategories'])->name('get.subcategories');
 
     Route::get('/comment/{item_id}', [MarketController::class, 'comment'])->name('comment');
     Route::post('/comment/store/{item_id}', [MarketController::class, 'storeComment'])->name('store.comment');
