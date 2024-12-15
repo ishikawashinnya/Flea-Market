@@ -15,19 +15,26 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        $admin = User::create([
-            'name' => '管理者',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('testadmin'),
-            'email_verified_at' => now(),
-        ]);
-        $admin->assignRole('admin');
+        $admin = User::firstOrcreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => '管理者',
+                'password' => bcrypt('testadmin'),
+                'email_verified_at' => now(),
+            ]
+        );
 
-        $user = User::create([
-            'name' => 'テストユーザー',
-            'email' => 'testuser@example.com',
-            'password' => bcrypt('testuser'),
-            'email_verified_at' => now(),
-        ]);
+        if (!$admin->hasRole('admin')) {
+            $admin->assignRole('admin');
+        }
+        
+        $user = User::firstOrcreate(
+            ['email' => 'testuser@example.com'],
+            [
+                'name' => 'テストユーザー',
+                'password' => bcrypt('testuser'),
+                'email_verified_at' => now(),
+            ]
+        );
     }
 }
