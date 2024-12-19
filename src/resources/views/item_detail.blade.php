@@ -16,9 +16,6 @@
         <div class="item__name">
             <p>{{ $item->name }}</p>
         </div>
-        <div class="brand__name">
-            <p>ブランド名</p>
-        </div>
         <div class="item__price">
             <p>&yen;{{ number_format($item->price) }}(値段)</p>
         </div>
