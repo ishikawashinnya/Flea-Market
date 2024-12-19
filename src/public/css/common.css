@@ -40,6 +40,7 @@ header {
 
 .header__search {
     width: 45%;
+    position: relative;
 }
 
 .text__search {
@@ -54,6 +55,31 @@ header {
     font-size: 16px;
     font-weight: bold;
     padding-left: 5%;
+}
+
+.category__search {
+    margin-top: 5px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000;
+    height: 35px;
+    display: none;
+}
+
+.category__search-link {
+    display: block;
+    color: #757575;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    padding-left: 5%;
+    padding-top: 1%;
 }
 
 .header__nav {

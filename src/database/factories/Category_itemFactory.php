@@ -17,7 +17,12 @@ class Category_itemFactory extends Factory
      */
     public function definition()
     {
-        $item = Item::whereBetween('id', [3, 22])->inRandomOrder()->first();
+        static $usedItemIds = [];
+        $itemIds = Item::whereBetween('id', [3, 22])->pluck('id')->toArray();
+        $itemIds = array_diff($itemIds, $usedItemIds);
+        shuffle($itemIds);
+        $itemId = array_pop($itemIds);
+        $usedItemIds[] = $itemId;
         $category = Category::inRandomOrder()->first();
         $subcategory = Subcategory::where('category_id', $category->id)
                                      ->inRandomOrder()
@@ -25,7 +30,7 @@ class Category_itemFactory extends Factory
         $subcategory_id = $subcategory ? $subcategory->id : null;
 
         return [
-            'item_id' => $item->id,
+            'item_id' => $itemId,
             'category_id' => $category->id,
             'subcategory_id' => $subcategory_id,
         ];

@@ -23,9 +23,7 @@
             <input type="hidden" name="user_id" value="{{ $user->id }}">
 
             <div class="img__field">
-                <label for="item__img" class="form__label">
-                    商品画像<span class="required">※</span>
-                </label>
+                <label for="item__img" class="form__label">商品画像</label>
                 <div class="img__preview">
                     <img id="item__img" src="{{ asset($item->img_url) }}" alt="商品画像">
                 </div>
@@ -44,9 +42,7 @@
                 <h3>商品の詳細</h3>
             </div>
             <div class="form__item">
-                <label for="category" class="form__label">
-                    カテゴリー<span class="required">※</span>
-                </label>
+                <label for="category" class="form__label">カテゴリー</label>
                 <select name="category_id" id="category" class="form__select">
                     <option value="" disabled selected></option>
                     @foreach($categories as $category)
@@ -60,7 +56,7 @@
                 </div>
             </div>
             <div class="form__item" id="subcategory__container">
-                <label for="subcategory" class="form__label">詳細カテゴリー</label>
+                <label for="subcategory" class="form__label">詳細カテゴリー<span class="required">(任意)</span></label>
                 <select name="subcategory_id" id="subcategory" class="form__select" ">
                     <option value="" disabled {{ old('subcategory_id', $selectedSubcategoryId) ? '' : 'selected' }}>詳細カテゴリーを選択</option>
                     @foreach($subcategories as $subcategory)
@@ -69,9 +65,7 @@
                 </select>
             </div>
             <div class="form__item">
-                <label for="condition" class="form__label">
-                    商品の状態<span class="required">※</span>
-                </label>
+                <label for="condition" class="form__label">商品の状態</label>
                 <select name="condition_id" id="condition" class="form__select">
                     <option value="" disabled selected></option>
                     @foreach($conditions as $condition)
@@ -89,9 +83,7 @@
                 <h3>商品名と説明</h3>
             </div>
             <div class="form__item">
-                <label for="name" class="form__label">
-                    商品名<span class="required">※</span>
-                </label>
+                <label for="name" class="form__label">商品名</label>
                 <input type="text" name="name" id="name" value="{{ old('name', $item->name) }}" class="form__input">
                 <div class="form__error">
                     @error('name')
@@ -100,9 +92,7 @@
                 </div>
             </div>
             <div class="form__item">
-                <label for="description" class="form__label">
-                    商品の説明<span class="required">※</span>
-                </label>
+                <label for="description" class="form__label">商品の説明</label>
                 <textarea name="description" id="description" cols="32" rows="8" maxlength="150" class="description__text">{{ old('description', $item->description) }}</textarea>
                
                 <div class="form__error">
@@ -116,9 +106,7 @@
                 <h3>販売価格</h3>
             </div>
             <div class="form__item">
-                <label for="price" class="form__label">
-                    販売価格<span class="required">※</span>
-                </label>
+                <label for="price" class="form__label">販売価格</label>
                 <div class="price__input">
                     <span class="price__prefix">￥</span>
                     <input type="text" name="price" id="price" value="{{ old('price', $item->price) }}" class="form__price-input">
@@ -136,6 +124,7 @@
         </form>
     </div>
 </div>
-
-<script src="{{ asset('js/sell.js') }}"></script>
+@endsection
+@section('js')
+    <script src="{{ asset('js/sell.js') }}"></script>
 @endsection
