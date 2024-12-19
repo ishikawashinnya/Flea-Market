@@ -18,13 +18,16 @@
             </div>
         </div>
         <div class="header__right">
-            <form action="" method="GET" class="header__search">
+            <form action="{{ route('keyword.search') }}" method="GET" class="header__search">
                 @csrf
                 @if (!empty($showSearchForm) && $showSearchForm)
                     <div class="text__search">
                         <input type="text" name="word" class="text__search-input" placeholder="なにをお探しですか？" value="{{ request('word') }}">
                     </div>
-                @endif  
+                    <div class="category__search" id="category__search">
+                        <a href="{{ route('categories.list') }}" class="category__search-link">カテゴリーからさがす</a>
+                    </div>
+                @endif
             </form>
             
             <nav class="header__nav">
@@ -76,5 +79,8 @@
     <main>
         @yield('content')
     </main>
+
+    <script src="{{ asset('js/common.js') }}"></script>
+    @yield('js')
 </body>
 </html>

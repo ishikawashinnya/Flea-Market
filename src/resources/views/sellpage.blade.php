@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="form__item" id="subcategory__container" style="display: none;>
-                <label for="subcategory" class="form__label">詳細カテゴリー</label>
+                <label for="subcategory" class="form__label">詳細カテゴリー<span class="required">(任意)</span></label>
                 <select name="subcategory_id" id="subcategory" class="form__select" ">
                     <option value="" disabled selected>詳細カテゴリーを選択</option>
                     @foreach($subcategories as $subcategory)

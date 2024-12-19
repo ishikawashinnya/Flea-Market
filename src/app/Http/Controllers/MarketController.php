@@ -25,15 +25,8 @@ class MarketController extends Controller
     public function index(Request $request) {
         $keyword = $request->input('word');
         $user = Auth::user();
-
-        if ($keyword) {
-            $items = Item::where('name', 'LIKE', '%' . $keyword . '%')->get();
-        } else {
-            $items = Item::all();
-        }
-
+        $items = Item::all();
         $likes = $user ? $user->likes()->pluck('item_id')->toArray() : [];
-
         $soldItems = Sold_item::pluck('item_id')->toArray();
 
         if ($request->has('tab') && $request->tab === 'mylist') {
@@ -51,7 +44,6 @@ class MarketController extends Controller
     //お気に入り登録・削除機能
     public function storeLike(Request $request) {
         $user = Auth::user();
-
         $existingLike = Like::where('item_id', $request->item_id)->where('user_id', $user->id)->first();
 
         if ($existingLike) {
@@ -74,6 +66,65 @@ class MarketController extends Controller
         }
 
         return back();
+    }
+
+    public function keywordSearch(Request $request) {
+        $keyword = $request->input('word');
+        $items = Item::where('name', 'LIKE', "%{$keyword}%")->get();
+        $user = Auth::user();
+        $likes = $user ? $user->likes()->pluck('item_id')->toArray() : [];
+        $soldItems = Sold_item::pluck('item_id')->toArray();
+        
+        return view('keyword_search_result', compact('items', 'likes', 'soldItems', "keyword"), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
+    }
+
+    public function categoriesList() {
+        $categories = Category::all();
+
+        return view('categories_list', compact('categories'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
+    }
+    
+    public function subcategoriesList($category_id) {
+        $category = Category::findOrFail($category_id);
+        $subcategories = $category->subcategories;
+
+        return view('subcategories_list', compact('category', 'subcategories'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
+    }
+
+    public function categoryAll($category_id) {
+        $category = Category::findOrFail($category_id);
+        $items = Item::whereHas('categories', function ($query) use ($category_id) {
+            $query->where('category_id', $category_id);
+        })->get();
+
+        $user = Auth::user();
+        $likes = $user ? $user->likes()->pluck('item_id')->toArray() : [];
+        $soldItems = Sold_item::pluck('item_id')->toArray();
+        $subcategory = null;
+
+        return view('category_search_result', compact('category', 'items', 'likes', 'soldItems', 'subcategory'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
+    }
+
+    public function categorySearchResult($category_id, $subcategory_id = null) {
+        $category = Category::findOrFail($category_id);
+
+        if ($subcategory_id) {
+            $subcategory = Subcategory::findOrFail($subcategory_id);
+            $items = Item::whereHas('categories', function ($query) use ($category_id) {
+                $query->where('categories.id', $category_id);
+            })->whereHas('subcategories', function ($query) use ($subcategory_id) {
+                $query->where('subcategories.id', $subcategory_id);
+            })->get();
+        } else {
+            $subcategory = null;
+            
+        }
+
+        $user = Auth::user();
+        $likes = $user ? $user->likes()->pluck('item_id')->toArray() : [];
+        $soldItems = Sold_item::pluck('item_id')->toArray();
+
+        return view('category_search_result', compact('category', 'subcategory', 'items', 'likes', 'soldItems'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
 
     //マイページ画面
@@ -101,7 +152,6 @@ class MarketController extends Controller
         }
 
         $soldItems = Sold_item::pluck('item_id')->toArray();
-
         $profile = $user->profile ?? new Profile();
         $profileImgUrl = $profile->img_url ?? asset('icon/face.svg');
 
@@ -215,7 +265,7 @@ class MarketController extends Controller
         $profileImgUrl = $profile && $profile->img_url ? asset($profile->img_url) : asset('icon/face.svg');
         $sold_item = Sold_item::where('item_id', $item->id)->first();
 
-        return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_item', 'userLikes', 'profile', 'profileImgUrl', 'sold_item', 'subcategory'), ['showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
+        return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_item', 'userLikes', 'profile', 'profileImgUrl', 'sold_item', 'subcategory'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
 
     //出品画面

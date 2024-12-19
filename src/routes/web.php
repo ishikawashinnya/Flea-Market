@@ -26,8 +26,13 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('s
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 Route::get('/', [MarketController::class, 'index'])->name('home');
-Route::get('item/{item_id}', [MarketController::class, 'detail'])->name('detail');
-Route::get('selleritem/{user_id}', [MarketController::class, 'sellerItem'])->name('selleritem');
+Route::get('/item/{item_id}', [MarketController::class, 'detail'])->name('detail');
+Route::get('/selleritem/{user_id}', [MarketController::class, 'sellerItem'])->name('selleritem');
+Route::get('/categories', [MarketController::class, 'categoriesList'])->name('categories.list');
+Route::get('/categories/{category_id}/subcategories', [MarketController::class, 'subcategoriesList'])->name('subcategories.list');
+Route::get('/categories/{category_id}/all', [MarketController::class, 'categoryAll'])->name('category.all');
+Route::get('/categories/{category_id}/subcategories/{subcategory_id?}', [MarketController::class, 'categorySearchResult'])->name('category.search.result');
+Route::get('/keyword/search', [MarketController::class, 'keywordSearch'])->name('keyword.search');
 
 //AuthenticatedUserRoutes
 Route::middleware(['auth'])->group(function () {
@@ -39,9 +44,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/like/{id}', [MarketController::class, 'destroyLike'])->name('destroy.like');
 
     Route::get('/purchase/address/{item_id}', [MarketController::class, 'editAddress'])->name('edit.address');
-    Route::post('address/update', [MarketController::class, 'updateAddress'])->name('update.address');
+    Route::post('/address/update', [MarketController::class, 'updateAddress'])->name('update.address');
     Route::get('/purchase/method/{item_id}', [MarketController::class, 'editPaymentMethod'])->name('edit.method');
-    Route::post('method/update', [MarketController::class, 'updatePaymentMethod'])->name('update.method');
+    Route::post('/method/update', [MarketController::class, 'updatePaymentMethod'])->name('update.method');
 
     Route::get('/sell', [MarketController::class, 'sell'])->name('sell');
     Route::post('/sell/store', [MarketController::class, 'storeSell'])->name('store.sell');
