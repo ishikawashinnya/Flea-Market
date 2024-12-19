@@ -76,7 +76,7 @@ Laravel Framework 8.x、PHP7.4.9、MySQL8.0.26、JavaScript、stripe
     php artisan db::seed  
 
   ※メール、stripe等の設定は必要に応じて行ってください。  
-  ※ローカルでテストを行う場合はphpunit.xmlの<server name="DB_CONNECTION" value="mysql_test"/>を<server name="DB_CONNECTION" value="mysql_local_test"/>と変更してください。
+  ※ローカルでテストを行う場合はphpunit.xmlのDB_CONNECTIONをmysql_local_testと変更してください。
 
 ## ダミーデータ説明
 ### ユーザー一覧
