@@ -27,6 +27,9 @@
                     <div class="category__search" id="category__search">
                         <a href="{{ route('categories.list') }}" class="category__search-link">カテゴリーからさがす</a>
                     </div>
+                    <button class="search__button">
+                        <img src="{{ asset('icon/search.svg') }}" alt="" class="search__icon">
+                    </button>
                 @endif
             </form>
             

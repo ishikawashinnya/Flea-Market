@@ -62,7 +62,7 @@
                         </div>
                         <div class="comment__view-area">
                             <p class="user__comment">{{ $comment->comment }}</p>
-                            @if ($comment->user_id === Auth::id())
+                            @if ($comment->user_id === Auth::id() || Auth::user()->hasRole('admin'))
                                 <form action="{{ route('destroy.comment', ['comment_id' => $comment->id]) }}" method="POST" class="delete__form">
                                     @csrf
                                     @method('DELETE')
@@ -83,7 +83,7 @@
                         </div>
                         <div class="comment__view-area">
                             <p class="user__comment">{{ $comment->comment }}</p>
-                            @if ($comment->user_id === Auth::id() || $item->user_id === Auth::id())
+                            @if ($comment->user_id === Auth::id() || $item->user_id === Auth::id() || Auth::user()->hasRole('admin'))
                                 <form action="{{ route('destroy.comment', ['comment_id' => $comment->id]) }}" method="POST" class="delete__form">
                                     @csrf
                                     @method('DELETE')
