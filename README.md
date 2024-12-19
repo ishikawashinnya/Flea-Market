@@ -22,10 +22,10 @@ http://ec2-13-231-223-163.ap-northeast-1.compute.amazonaws.com/
 Laravel Framework 8.x、PHP7.4.9、MySQL8.0.26、JavaScript、stripe
 
 ## テーブル設計
-![テーブル設計](https://github.com/user-attachments/assets/cbaf9c99-7def-432f-96ce-7ec789073a52)
+![テーブル設計](https://github.com/user-attachments/assets/3e2f2b71-86db-4eeb-9aee-ad375ac0e209)
 
 ## ER図
-![table_ER drawio](https://github.com/user-attachments/assets/ef14b545-7226-411b-814e-69cf240b0769)
+![table_ER drawio](https://github.com/user-attachments/assets/17e944d8-8cb3-4ccb-98a5-be7d812b6dc3)
 
 ## 環境構築
 ### Dockerビルド
@@ -75,7 +75,8 @@ Laravel Framework 8.x、PHP7.4.9、MySQL8.0.26、JavaScript、stripe
   
     php artisan db::seed  
 
-  ※メール、stripe等の設定は必要に応じて行ってください。
+  ※メール、stripe等の設定は必要に応じて行ってください。  
+  ※ローカルでテストを行う場合はphpunit.xmlの<server name="DB_CONNECTION" value="mysql_test"/>を<server name="DB_CONNECTION" value="mysql_local_test"/>と変更してください。
 
 ## ダミーデータ説明
 ### ユーザー一覧
