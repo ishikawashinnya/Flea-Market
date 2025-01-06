@@ -9,7 +9,7 @@
     <div class="content__left">
         <div class="item__information">
             <div class="item__img">
-                <img src="{{ asset($item->img_url) }}" alt="{{ $item->name }}">
+                <img src="{{ asset($item->img_url) }}" alt="{{ $item->name }}" class="item__img-area">
             </div>
             <div class="item__detail">
                 <p class="item__name">{{ $item->name }}</p>
@@ -20,17 +20,17 @@
             <h3 class='groupe__ttl'>支払い方法</h3>
             <div class="payment__method">
                 @if (isset($profile))
-                    @if ($profile->payment_method == 'credit_card')
-                        <p>クレジットカード</p>
-                    @elseif ($profile->payment_method == 'convenience_store')
-                        <p>コンビニ払い</p>
-                    @elseif ($profile->payment_method == 'bank_transfer')
-                        <p>銀行振込み</p>
-                    @else
-                        <p>クレジットカード</p>
-                    @endif
+                @if ($profile->payment_method == 'credit_card')
+                <p>クレジットカード</p>
+                @elseif ($profile->payment_method == 'convenience_store')
+                <p>コンビニ払い</p>
+                @elseif ($profile->payment_method == 'bank_transfer')
+                <p>銀行振込み</p>
                 @else
-                    <p>配送先情報が登録されていません</p>
+                <p>クレジットカード</p>
+                @endif
+                @else
+                <p>配送先情報が登録されていません</p>
                 @endif
             </div>
             <a href="{{ route('edit.method', ['item_id' => $item->id]) }}" class="change__link">変更する</a>
@@ -68,36 +68,36 @@
                 <div class="information__value">
                     @if (isset($profile))
                     @if ($profile->payment_method == 'credit_card')
-                        <p>クレジットカード</p>
+                    <p>クレジットカード</p>
                     @elseif ($profile->payment_method == 'convenience_store')
-                        <p>コンビニ払い</p>
+                    <p>コンビニ払い</p>
                     @elseif ($profile->payment_method == 'bank_transfer')
-                        <p>銀行振込み</p>
+                    <p>銀行振込み</p>
                     @else
-                        <p>クレジットカード</p>
+                    <p>クレジットカード</p>
                     @endif
-                @else
+                    @else
                     <p>配送先情報が登録されていません</p>
-                @endif
+                    @endif
                 </div>
             </div>
         </div>
         @if (isset($profile) && $profile->payment_method == 'bank_transfer')
-            <form action="{{ route('banktransfer') }}" method="POST" class="buy__form">
-                @csrf
-                <input type="hidden" name="item_id" value="{{ $item->id }}">
-                <div class="form__button">
-                    <button class="form__button-submit" type="submit" onclick="return confirm('購入しますか？')">購入する</button>
-                </div>
-            </form>
+        <form action="{{ route('banktransfer') }}" method="POST" class="buy__form">
+            @csrf
+            <input type="hidden" name="item_id" value="{{ $item->id }}">
+            <div class="form__button">
+                <button class="form__button-submit" type="submit" onclick="return confirm('購入しますか？')">購入する</button>
+            </div>
+        </form>
         @else
-            <form action="{{ route('checkout') }}" method="POST" class="buy__form">
-                @csrf
-                <input type="hidden" name="item_id" value="{{ $item->id }}">
-                <div class="form__button">
-                    <button class="form__button-submit" type="submit" onclick="return confirm('購入しますか？')">購入する</button>
-                </div>
-            </form>
+        <form action="{{ route('checkout') }}" method="POST" class="buy__form">
+            @csrf
+            <input type="hidden" name="item_id" value="{{ $item->id }}">
+            <div class="form__button">
+                <button class="form__button-submit" type="submit" onclick="return confirm('購入しますか？')">購入する</button>
+            </div>
+        </form>
         @endif
     </div>
 </div>

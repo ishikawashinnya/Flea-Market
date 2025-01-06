@@ -19,7 +19,7 @@ class Item extends Model
     ];
 
     public function category_items() {
-        return $this->hasMany(Category_item::class);
+        return $this->hasMany(CategoryItem::class);
     }
 
     public function likes() {
@@ -31,7 +31,7 @@ class Item extends Model
     }
 
     public function sold_items() {
-        return $this->hasMany(Sold_item::class);
+        return $this->hasMany(SoldItem::class);
     }
 
     public function user() {

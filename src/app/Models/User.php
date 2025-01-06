@@ -56,7 +56,7 @@ class User extends Authenticatable
     }
 
     public function sold_items() {
-        return $this->hasMany(Sold_item::class);
+        return $this->hasMany(SoldItem::class);
     }
 
     public function items() {

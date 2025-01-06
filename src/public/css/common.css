@@ -6,7 +6,6 @@ body {
 }
 
 header {
-    max-width: 1280px;
     height: 6%;
     display: flex;
     justify-content: space-between;
@@ -147,7 +146,6 @@ header {
 }
 
 main {
-    max-width: 1280px;
     margin: 0 auto;
     background-color: #FFFFFF;
 }
@@ -162,7 +160,7 @@ main {
         height: 35px;
         border: none;
         border-radius: 5px;
-        font-size: 12px;
+        font-size: clamp(9px, 1.5vw, 12px);
         font-weight: bold;
         padding-left: 5%;
     }
@@ -202,4 +200,16 @@ main {
         font-weight: bold;
         padding: 7px 15px;
     }
+    
+    .category__search-link {
+        display: block;
+        color: #757575;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: clamp(10px, 1.5vw, 12px);
+        font-weight: bold;
+        padding-left: 5%;
+        padding-top: 3%;
+        padding-bottom: 3%;
+    }  
 }

@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Comment;
-use Illuminate\Pagination\Paginator;
 use App\Mail\NotificationMail;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {

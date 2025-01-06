@@ -5,8 +5,6 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Comment;
-use App\Models\User;
-use App\Models\Item;
 
 class CommentsSeeder extends Seeder
 {

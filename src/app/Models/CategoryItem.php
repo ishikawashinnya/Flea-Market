@@ -5,20 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sold_item extends Model
+class CategoryItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'item_id',
-        'user_id'
+        'category_id',
+        'subcategory_id',
     ];
-
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
 
     public function item() {
         return $this->belongsTo(Item::class);
+    }
+
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function subcategory() {
+        return $this->belongsTo(Subcategory::class);
     }
 }

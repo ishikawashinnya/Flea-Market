@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ConditionsTableSeeder::class);
         $this->call(ItemsTableSeeder::class);
         $this->call(LikesTableSeeder::class);
-        $this->call(Category_itemsTableSeeder::class);
+        $this->call(CategoryItemsTableSeeder::class);
         $this->call(CommentsSeeder::class);
-        $this->call(Sold_itemsTableSeeder::class);
+        $this->call(SoldItemsTableSeeder::class);
 
         // \App\Models\User::factory(10)->create();
     }
