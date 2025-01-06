@@ -42,4 +42,12 @@ class RegisterRequest extends FormRequest
             'password.max' => 'パスワードを191文字以下で入力してください',
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'email' => 'メールアドレス',
+            'password' => 'パスワード'
+        ];
+    }
 }
