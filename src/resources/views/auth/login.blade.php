@@ -14,22 +14,22 @@
         <form action="{{ route('store.login') }}" method="post" class="form">
             @csrf
             <div class="form__input">
-                <label for="email">メールアドレス</label>
-                <input type="email" name="email" id="email" value="{{ old('email') }}">
+                <label for="email" class="form__input-label">メールアドレス</label>
+                <input type="email" name="email" id="email" value="{{ old('email') }}" class="form__input-area">
             </div>
             <div class="form__error">
                 @error('email')
-                    {{ $message }}
+                {{ $message }}
                 @enderror
             </div>
 
             <div class="form__input">
-                <label for="password">パスワード</label>
-                <input type="password" name="password" id="password">
+                <label for="password" class="form__input-label">パスワード</label>
+                <input type="password" name="password" id="password" class="form__input-area">
             </div>
             <div class="form__error">
                 @error('password')
-                    {{ $message }}
+                {{ $message }}
                 @enderror
             </div>
 

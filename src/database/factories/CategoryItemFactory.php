@@ -8,7 +8,7 @@ use App\Models\Item;
 use App\Models\Category;
 use App\Models\Subcategory;
 
-class Category_itemFactory extends Factory
+class CategoryItemFactory extends Factory
 {
     /**
      * Define the model's default state.

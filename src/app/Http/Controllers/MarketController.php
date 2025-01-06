@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Like;
-use App\Models\Sold_item;
+use App\Models\SoldItem;
 use App\Models\Profile;
-use App\Models\Category_item;
+use App\Models\CategoryItem;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Condition;
@@ -27,7 +27,7 @@ class MarketController extends Controller
         $user = Auth::user();
         $items = Item::all();
         $likes = $user ? $user->likes()->pluck('item_id')->toArray() : [];
-        $soldItems = Sold_item::pluck('item_id')->toArray();
+        $soldItems = SoldItem::pluck('item_id')->toArray();
 
         if ($request->has('tab') && $request->tab === 'mylist') {
             if ($user) {
@@ -73,7 +73,7 @@ class MarketController extends Controller
         $items = Item::where('name', 'LIKE', "%{$keyword}%")->get();
         $user = Auth::user();
         $likes = $user ? $user->likes()->pluck('item_id')->toArray() : [];
-        $soldItems = Sold_item::pluck('item_id')->toArray();
+        $soldItems = SoldItem::pluck('item_id')->toArray();
         
         return view('keyword_search_result', compact('items', 'likes', 'soldItems', "keyword"), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
@@ -99,7 +99,7 @@ class MarketController extends Controller
 
         $user = Auth::user();
         $likes = $user ? $user->likes()->pluck('item_id')->toArray() : [];
-        $soldItems = Sold_item::pluck('item_id')->toArray();
+        $soldItems = SoldItem::pluck('item_id')->toArray();
         $subcategory = null;
 
         return view('category_search_result', compact('category', 'items', 'likes', 'soldItems', 'subcategory'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
@@ -122,7 +122,7 @@ class MarketController extends Controller
 
         $user = Auth::user();
         $likes = $user ? $user->likes()->pluck('item_id')->toArray() : [];
-        $soldItems = Sold_item::pluck('item_id')->toArray();
+        $soldItems = SoldItem::pluck('item_id')->toArray();
 
         return view('category_search_result', compact('category', 'subcategory', 'items', 'likes', 'soldItems'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
@@ -134,7 +134,7 @@ class MarketController extends Controller
 
         if ($request->has('tab') && $request->tab === 'buys') {
             if ($user) {
-                $buys = Sold_item::where('user_id', $user->id)->pluck('item_id')->toArray();
+                $buys = SoldItem::where('user_id', $user->id)->pluck('item_id')->toArray();
                 if ($keyword) {
                     $items = Item::whereIn('id', $buys)->where('name', 'LIKE', '%' . $keyword . '%')->get();
                 } else {
@@ -151,7 +151,7 @@ class MarketController extends Controller
             }
         }
 
-        $soldItems = Sold_item::pluck('item_id')->toArray();
+        $soldItems = SoldItem::pluck('item_id')->toArray();
         $profile = $user->profile ?? new Profile();
         $profileImgUrl = $profile->img_url ?? asset('icon/face.svg');
 
@@ -263,7 +263,7 @@ class MarketController extends Controller
         $userLikes = $user ? Like::where('user_id', $user->id)->pluck('item_id')->toArray() : [];
         $profile = $user->profile ?? new Profile();
         $profileImgUrl = $profile && $profile->img_url ? asset($profile->img_url) : asset('icon/face.svg');
-        $sold_item = Sold_item::where('item_id', $item->id)->first();
+        $sold_item = SoldItem::where('item_id', $item->id)->first();
 
         return view('item_detail', compact('item', 'user', 'likes', 'comments', 'category_item', 'userLikes', 'profile', 'profileImgUrl', 'sold_item', 'subcategory'), ['showSearchForm' => true, 'showMypageButton' => true, 'showAuthButton' => true, 'showSellpageButton' => true]);
     }
@@ -301,7 +301,7 @@ class MarketController extends Controller
 
         $item->save();
 
-        $category_item = new Category_item();
+        $category_item = new CategoryItem();
         $category_item->item_id = $item->id;
         $category_item->category_id = $request->input('category_id');
         $category_item->subcategory_id = $request->input('subcategory_id');
@@ -317,7 +317,7 @@ class MarketController extends Controller
         $categories = Category::all();
         $conditions = Condition::all();
         $itemCategories = $item->categories->pluck('id')->toArray();
-        $categoryItem = Category_item::where('item_id', $item->id)->first();
+        $categoryItem = CategoryItem::where('item_id', $item->id)->first();
         $selectedSubcategoryId = $categoryItem ? $categoryItem->subcategory_id : null;
         $subcategories = $selectedSubcategoryId ? Subcategory::where('category_id', $itemCategories[0])->get() : collect();
 
@@ -355,14 +355,14 @@ class MarketController extends Controller
         }
 
         $subcategory_id = $request->input('suncategory_id');
-        $categoryItem = Category_item::where('item_id', $item->id)->first();
+        $categoryItem = CategoryItem::where('item_id', $item->id)->first();
 
         if($categoryItem) {
             $categoryItem->category_id = $request->input('category_id');
             $categoryItem->subcategory_id = $subcategory_id !== null ? $subcategory_id : null;
             $categoryItem->save();
         } else {
-            $categoryItem = new Category_item();
+            $categoryItem = new CategoryItem();
             $categoryItem->item_id = $item->id;
             $categoryItem->category_id = $request->input('category_id');
             $categoryItem->subcategory_id = $subcategory_id !== null ? $subcategory_id : null;
@@ -432,7 +432,7 @@ class MarketController extends Controller
         $user = Auth::user();
         $sellerUser = User::findOrFail($user_id);
         $items = Item::where('user_id', $user_id)->get();
-        $soldItems = Sold_item::pluck('item_id')->toArray();
+        $soldItems = SoldItem::pluck('item_id')->toArray();
         $profile = $sellerUser->profile ?? new Profile();
         $profileImgUrl = $profile && $profile->img_url ? asset($profile->img_url) : asset('icon/face.svg');
         $likes = $user ? $user->likes()->pluck('item_id')->toArray() : [];

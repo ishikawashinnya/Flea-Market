@@ -1,5 +1,4 @@
 .auth__content {
-    max-width: 1280px;
     margin: 0 auto;
     text-align: center;
 }
@@ -29,12 +28,12 @@
     margin-bottom: 5%;
 }
 
-.form__input label {
+.form__input-label {
     font-size: 13px;
     font-weight: bold;
 }
 
-.form__input input {
+.form__input-area {
     height: 35px;
     border: 1px solid rgb(115, 115, 115);
     border-radius: 3px;

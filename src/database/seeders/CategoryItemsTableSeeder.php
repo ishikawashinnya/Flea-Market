@@ -4,10 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\Category_item;
-use App\Models\Item;
+use App\Models\CategoryItem;
 
-class Category_itemsTableSeeder extends Seeder
+class CategoryItemsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -30,6 +29,6 @@ class Category_itemsTableSeeder extends Seeder
         ];
         DB::table('category_items')->insert($param);
 
-        Category_item::factory()->count(20)->create();
+        CategoryItem::factory()->count(20)->create();
     }
 }

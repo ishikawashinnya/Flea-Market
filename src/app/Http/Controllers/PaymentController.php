@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
-use Stripe\Customer;
-use Stripe\PaymentIntent;
 use Stripe\StripeClient;
 use Stripe\Exception\ApiErrorException;
 use App\Models\Item;
-use App\Models\Sold_item;
+use App\Models\SoldItem;
 use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
@@ -61,7 +59,7 @@ class PaymentController extends Controller
 
     public function success($item_id) {
         try {
-            Sold_item::create([
+            SoldItem::create([
                 'item_id' => $item_id,
                 'user_id' => Auth::id(),
             ]);
@@ -116,7 +114,7 @@ class PaymentController extends Controller
                 $bankTransferInfo = $paymentIntentDetails->next_action->display_bank_transfer_instructions->financial_addresses[0];
                 $amountRemaining = $paymentIntentDetails->amount_remaining;
 
-                Sold_item::create([
+                SoldItem::create([
                     'item_id' => $item->id,
                     'user_id' => $request->user()->id,
                 ]);
