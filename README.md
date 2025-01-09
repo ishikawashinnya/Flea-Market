@@ -4,14 +4,14 @@
 会員登録すると、出品・購入・コメント・お気に入りなどが出来ます。  
 管理者は、ユーザーの削除・コメントの削除・ユーザーへのメール送信が出来ます。  
   
-![アプリトップページ](https://github.com/user-attachments/assets/a2006232-e4b2-4073-8343-c1e9d1f6e599)
+![アプリトップページ](https://github.com/user-attachments/assets/a14607bd-333f-4b26-9b8f-61bd3212d3ba)
 
 ## 作成目的  
 Laravel学習のまとめとして作成しました。
 
 ## アプリケーションURL
 http://ec2-13-231-223-163.ap-northeast-1.compute.amazonaws.com/  
-※テストデプロイのため保護されていない通信です。  
+※テストデプロイのため保護されていない通信です。（現在停止中）
 
 ## 機能一覧
 会員登録・ログイン、お気に入り追加・削除、コメント投稿・削除、検索、出品、購入、決済(stripe)  
@@ -22,10 +22,10 @@ http://ec2-13-231-223-163.ap-northeast-1.compute.amazonaws.com/
 Laravel Framework 8.x、PHP7.4.9、MySQL8.0.26、JavaScript、stripe
 
 ## テーブル設計
-![テーブル設計](https://github.com/user-attachments/assets/3e2f2b71-86db-4eeb-9aee-ad375ac0e209)
+![テーブル設計修正](https://github.com/user-attachments/assets/6fc4a6e9-6474-411f-b988-067f199242b4)
 
 ## ER図
-![table_ER drawio](https://github.com/user-attachments/assets/17e944d8-8cb3-4ccb-98a5-be7d812b6dc3)
+![table_ER drawio](https://github.com/user-attachments/assets/9bf362ef-fd5c-4445-a8c9-84d927df00ab)
 
 ## 環境構築
 ### Dockerビルド
